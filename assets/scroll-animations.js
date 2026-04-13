@@ -289,46 +289,52 @@ function initBrokenSystem() {
     }
     var chars = part2.querySelectorAll('.rf-broken-part2__headline .char');
 
-    // Pin part2 for 200vh of scroll
+    // Pin part2 for 250vh of scroll
     ScrollTrigger.create({
       trigger: part2inner,
       start: 'top top',
-      end: '+=200%',
+      end: '+=250%',
       pin: true,
       pinSpacing: true
     });
 
-    // State 1: Chars appear (blur 8 → 0, opacity 0 → 1)
-    chars.forEach(function (c, idx) {
-      gsap.to(c, {
-        opacity: 1,
-        filter: 'blur(0px) brightness(1)',
-        y: 0,
-        scale: 1,
-        duration: 0.5,
-        delay: idx * 0.02,
-        scrollTrigger: {
-          trigger: part2inner,
-          start: 'top 40%',
-          once: true
-        }
-      });
+    // State 1: Chars reveal one by one on scroll (scrub-linked)
+    var totalChars = chars.length;
+    ScrollTrigger.create({
+      trigger: part2,
+      start: 'top top',
+      end: '35% top',
+      scrub: 1,
+      onUpdate: function (self) {
+        var progress = self.progress;
+        var litCount = Math.ceil(progress * totalChars) - 1;
+        chars.forEach(function (c, i) {
+          if (progress > 0 && i <= litCount) {
+            c.style.opacity = '1';
+            c.style.filter = 'blur(0px) brightness(1)';
+            c.style.transform = 'translateY(0) scale(1)';
+          }
+        });
+      }
     });
 
-    // State 2: Chars blur out with brightness + scale down as you scroll past
-    chars.forEach(function (c) {
-      gsap.to(c, {
-        filter: 'blur(30px) brightness(10)',
-        y: -50,
-        scale: 0.3,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: part2,
-          start: '60% top',
-          end: '90% top',
-          scrub: 1
-        }
-      });
+    // State 2: All chars blur out with brightness + scale down
+    ScrollTrigger.create({
+      trigger: part2,
+      start: '50% top',
+      end: '80% top',
+      scrub: 1,
+      onUpdate: function (self) {
+        var p = self.progress;
+        var blurVal = p * 30;
+        var brightVal = 1 + p * 9;
+        var yVal = p * -50;
+        var scaleVal = 1 - p * 0.7;
+        chars.forEach(function (c) {
+          c.style.filter = 'blur(' + blurVal + 'px) brightness(' + brightVal + ')';
+          c.style.transform = 'translateY(' + yVal + 'px) scale(' + scaleVal + ')';
+        });
+      }
     });
   }
 
