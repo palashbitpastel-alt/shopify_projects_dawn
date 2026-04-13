@@ -85,36 +85,6 @@
         "padding_side": 5
       }
     },
-    "custom_pyramid": {
-      "type": "custom-pyramid",
-      "blocks": {
-        "panel_1": {
-          "type": "panel",
-          "settings": {
-            "category": "Protein, Dairy, & Healthy Fats",
-            "body": "We are ending the war on protein and healthy fats. Meat, eggs, dairy, and fish are real food — nutrient-dense and essential."
-          }
-        },
-        "panel_2": {
-          "type": "panel",
-          "settings": {
-            "category": "Vegetables & Fruits",
-            "body": "Vegetables and fruits are the foundation of a healthy plate. Choose whole, unprocessed produce — the closer to the farm, the better."
-          }
-        },
-        "panel_3": {
-          "type": "panel",
-          "settings": {
-            "category": "Whole Grains",
-            "body": "Whole grains — not refined flour and sugar — provide sustained energy. Choose real bread, oats, and rice over processed cereals."
-          }
-        }
-      },
-      "block_order": ["panel_1", "panel_2", "panel_3"],
-      "settings": {
-        "title": "Eat Real Food"
-      }
-    },
     "image_banner": {
       "type": "image-banner",
       "blocks": {
@@ -241,7 +211,6 @@
     "custom_video_expand",
     "custom_broken_system",
     "custom_stats",
-    "custom_pyramid",
     "image_banner",
     "featured_collection",
     "slideshow_n79Hbg"
