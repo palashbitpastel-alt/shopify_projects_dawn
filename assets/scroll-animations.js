@@ -79,6 +79,22 @@ function initStatsCounters() {
   if (!grid) return;
 
   const valueEls = grid.querySelectorAll('.rf-stats__value');
+  var barFills = grid.querySelectorAll('.rf-stats__bar-fill');
+
+  // Rank bars by value — highest gets full red, others get less opacity
+  var barValues = [];
+  barFills.forEach(function (bar) {
+    barValues.push(parseInt(bar.getAttribute('data-bar-target'), 10) || 0);
+  });
+  var sorted = barValues.slice().sort(function (a, b) { return b - a; });
+  barFills.forEach(function (bar) {
+    var val = parseInt(bar.getAttribute('data-bar-target'), 10) || 0;
+    var rank = sorted.indexOf(val);
+    // highest = 1.0, middle = 0.7, lowest = 0.45
+    var opacityMap = [1, 0.7, 0.45];
+    var opacity = opacityMap[rank] || 0.45;
+    bar.style.backgroundColor = 'rgba(204, 0, 0, ' + opacity + ')';
+  });
 
   // Slide-up the entire grid
   gsap.to(grid, {

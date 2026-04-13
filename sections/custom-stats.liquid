@@ -58,37 +58,21 @@
   justify-content: flex-end;
 }
 
+.rf-stats__number {
+  font-size: clamp(48px, 6vw, 72px);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+  margin: 0 0 12px;
+  white-space: nowrap;
+  z-index: 2;
+}
+
 .rf-stats__bar-fill {
   width: 100%;
   height: 0%;
   background: #cc0000;
   position: relative;
-  overflow: hidden;
-}
-
-.rf-stats__bar-fill::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  background: linear-gradient(180deg, rgba(255, 70, 70, 0.3) 0%, transparent 40%);
-  pointer-events: none;
-}
-
-.rf-stats__number {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translate(-50%, -100%);
-  font-size: clamp(48px, 6vw, 72px);
-  font-weight: 900;
-  color: #ffffff;
-  line-height: 1;
-  margin: 0;
-  white-space: nowrap;
-  z-index: 2;
 }
 
 .rf-stats__unit {
@@ -143,34 +127,31 @@
 
   <div class="rf-stats__grid">
     <div class="rf-stats__item">
+      <p class="rf-stats__number">
+        <span class="rf-stats__value" data-target="{{ section.settings.stat1_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat1_unit }}</span>
+      </p>
       <div class="rf-stats__bar-block">
-        <div class="rf-stats__bar-fill" data-bar-target="{{ section.settings.stat1_number }}">
-          <p class="rf-stats__number">
-            <span class="rf-stats__value" data-target="{{ section.settings.stat1_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat1_unit }}</span>
-          </p>
-        </div>
+        <div class="rf-stats__bar-fill" data-bar-target="{{ section.settings.stat1_number }}"></div>
       </div>
       <p class="rf-stats__label">{{ section.settings.stat1_label }}</p>
     </div>
 
     <div class="rf-stats__item">
+      <p class="rf-stats__number">
+        <span class="rf-stats__value" data-target="{{ section.settings.stat2_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat2_unit }}</span>
+      </p>
       <div class="rf-stats__bar-block">
-        <div class="rf-stats__bar-fill" data-bar-target="{{ section.settings.stat2_number }}">
-          <p class="rf-stats__number">
-            <span class="rf-stats__value" data-target="{{ section.settings.stat2_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat2_unit }}</span>
-          </p>
-        </div>
+        <div class="rf-stats__bar-fill" data-bar-target="{{ section.settings.stat2_number }}"></div>
       </div>
       <p class="rf-stats__label">{{ section.settings.stat2_label }}</p>
     </div>
 
     <div class="rf-stats__item">
+      <p class="rf-stats__number">
+        <span class="rf-stats__value" data-target="{{ section.settings.stat3_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat3_unit }}</span>
+      </p>
       <div class="rf-stats__bar-block">
-        <div class="rf-stats__bar-fill" data-bar-target="{{ section.settings.stat3_number }}">
-          <p class="rf-stats__number">
-            <span class="rf-stats__value" data-target="{{ section.settings.stat3_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat3_unit }}</span>
-          </p>
-        </div>
+        <div class="rf-stats__bar-fill" data-bar-target="{{ section.settings.stat3_number }}"></div>
       </div>
       <p class="rf-stats__label">{{ section.settings.stat3_label }}</p>
     </div>
