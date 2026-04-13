@@ -1,3 +1,19 @@
+<style>
+  .video-expand__error {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: #111;
+    color: rgba(255,255,255,0.5);
+    font-size: 16px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    z-index: 1;
+  }
+</style>
+
 <section
   class="video-expand-section"
   data-section-id="{{ section.id }}"
@@ -16,8 +32,12 @@
         muted
         loop
         playsinline
+        preload="auto"
+        crossorigin="anonymous"
         src="{{ section.settings.video_mp4 }}"
+        onerror="this.style.display='none';this.parentElement.querySelector('.video-expand__error').style.display='flex';"
       ></video>
+      <div class="video-expand__error">Video failed to load — try uploading via Shopify Files and pasting the URL</div>
     {%- elsif section.settings.video_url != blank -%}
       {%- if section.settings.video_url.type == 'youtube' -%}
         <iframe

@@ -37,6 +37,10 @@ body {
 .shopify-section {
   width: 100%;
   max-width: 100%;
+}
+
+/* Only clip non-video sections — overflow:hidden on video section breaks the expand animation */
+.shopify-section:not(.video-expand-section-wrapper) {
   overflow: hidden;
 }
 
@@ -77,9 +81,7 @@ a {
 }
 
 /* --- 3D Global Setup --- */
-body {
-  perspective: 1200px;
-}
+/* Note: perspective on body removed — it breaks fixed positioning and video stacking */
 
 /* --- 3D Hero Parallax Tilt --- */
 .rf-hero {
@@ -215,6 +217,7 @@ body {
   overflow: hidden;
   will-change: width, border-radius;
   margin: 0 auto;
+  background: #111;
 }
 
 /* Play / expand button */
