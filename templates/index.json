@@ -125,7 +125,8 @@
         "panel_3"
       ],
       "settings": {
-        "title": "Eat Real Food"
+        "title": "Eat Real Food",
+        "collage_image": "shopify://shop_images/putting-on-your-shoes_925x_62d33da4-e3d1-4a29-a948-84722b10ad23.jpg"
       }
     },
     "custom_resources": {
