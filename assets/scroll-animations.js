@@ -192,6 +192,8 @@ function initBrokenSystem() {
   // =============================================
   var part1 = document.querySelector('.rf-broken-part1');
   if (part1) {
+    var part1inner = part1.querySelector('.rf-broken-part1__inner');
+
     // Split text into word spans
     var text1 = part1.querySelector('.rf-broken-part1__text');
     if (text1) {
@@ -218,11 +220,20 @@ function initBrokenSystem() {
       });
     }
 
-    // Word highlight as you scroll through the 200vh
+    // Pin part1 for 150% scroll — stays pinned until text animation + fade out done
+    ScrollTrigger.create({
+      trigger: part1inner,
+      start: 'top top',
+      end: '+=150%',
+      pin: true,
+      pinSpacing: true
+    });
+
+    // Word highlight (first 60% of pinned scroll)
     ScrollTrigger.create({
       trigger: part1,
       start: 'top top',
-      end: '50% top',
+      end: '40% top',
       scrub: 1,
       onUpdate: function (self) {
         var progress = self.progress;
@@ -238,22 +249,19 @@ function initBrokenSystem() {
       }
     });
 
-    // Fade out part1 sticky content after words are done
-    var sticky1 = part1.querySelector('.rf-broken-part1__sticky');
-    if (sticky1) {
-      gsap.to(sticky1, {
-        opacity: 0,
-        y: -80,
-        filter: 'blur(20px)',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: part1,
-          start: '55% top',
-          end: '75% top',
-          scrub: 1
-        }
-      });
-    }
+    // Fade out after text animation completes, then unpins
+    gsap.to(part1inner, {
+      opacity: 0,
+      y: -80,
+      filter: 'blur(20px)',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: part1,
+        start: '45% top',
+        end: '60% top',
+        scrub: 1
+      }
+    });
   }
 
   // =============================================

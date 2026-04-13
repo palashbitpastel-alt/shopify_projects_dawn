@@ -1,15 +1,12 @@
 <style>
-/* === PART 1: Image + word highlight (sticky, 200vh) === */
+/* === PART 1: Image + word highlight (GSAP pinned) === */
 .rf-broken-part1 {
   background: #000;
-  height: 200vh;
   position: relative;
   margin-bottom: -25vh;
 }
 
-.rf-broken-part1__sticky {
-  position: sticky;
-  top: 0;
+.rf-broken-part1__inner {
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -132,11 +129,7 @@
 }
 
 @media (max-width: 749px) {
-  .rf-broken-part1 {
-    height: 180vh;
-  }
-
-  .rf-broken-part1__sticky {
+  .rf-broken-part1__inner {
     gap: 24px;
     padding: 0 16px;
   }
@@ -153,7 +146,7 @@
 
 <!-- PART 1: Image + word highlight -->
 <div class="rf-broken-part1">
-  <div class="rf-broken-part1__sticky">
+  <div class="rf-broken-part1__inner">
     {%- if section.settings.image != blank -%}
       <div class="rf-broken-part1__image-wrap">
         {{ section.settings.image | image_url: width: 880 | image_tag: loading: 'lazy' }}
