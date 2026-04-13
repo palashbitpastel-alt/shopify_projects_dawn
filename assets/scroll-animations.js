@@ -187,129 +187,95 @@ function initTextReveal() {
 function initBrokenSystem() {
   console.log('[ScrollAnim] initBrokenSystem loaded');
 
-  // =============================================
-  // PART 1: Image + word highlight (CSS sticky, 200vh)
-  // =============================================
-  var part1 = document.querySelector('.rf-broken-part1');
-  if (part1) {
-    var part1inner = part1.querySelector('.rf-broken-part1__inner');
+  // Helper: split text content into <span class="w"> per word
+  function splitWords(el) {
+    if (!el) return [];
+    el.innerHTML = el.textContent.trim().split(/\s+/).map(function (w) {
+      return '<span class="w">' + w + '</span>';
+    }).join(' ');
+    return el.querySelectorAll('.w');
+  }
 
-    // Split text into word spans
-    var text1 = part1.querySelector('.rf-broken-part1__text');
-    if (text1) {
-      var raw1 = text1.textContent.trim();
-      text1.innerHTML = raw1.split(/\s+/).map(function (w) {
-        return '<span class="word">' + w + '</span>';
-      }).join(' ');
+  // Helper: split text into <span class="ch"> per char
+  function splitChars(el) {
+    if (!el) return [];
+    var t = el.textContent.trim();
+    var html = '';
+    for (var i = 0; i < t.length; i++) {
+      html += t[i] === ' '
+        ? '<span class="sp">&nbsp;</span>'
+        : '<span class="ch">' + t[i] + '</span>';
     }
-    var words1 = part1.querySelectorAll('.rf-broken-part1__text .word');
+    el.innerHTML = html;
+    return el.querySelectorAll('.ch');
+  }
 
-    // Image scroll-in: opacity 0.4 → 1, translateY -40 → 0
-    var imageWrap = part1.querySelector('.rf-broken-part1__image-wrap');
-    if (imageWrap) {
-      gsap.to(imageWrap, {
-        opacity: 1,
-        y: 0,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: part1,
-          start: 'top 75%',
-          end: 'top top',
-          scrub: 1
+  // =============================================
+  // PART 1 — Sticky image + word highlight
+  // Section is 200vh, content is CSS sticky.
+  // Image fades in, words light up, then all
+  // fades out with blur + translateY before unpin.
+  // =============================================
+  var bs1 = document.querySelector('.rf-bs1');
+  if (bs1) {
+    var bs1Sticky = bs1.querySelector('.rf-bs1__sticky');
+    var bs1Image  = bs1.querySelector('.rf-bs1__image');
+    var bs1Words  = splitWords(bs1.querySelector('.rf-bs1__text'));
+
+    // Image entrance: opacity 0.4→1, y -40→0
+    if (bs1Image) {
+      gsap.to(bs1Image, {
+        opacity: 1, y: 0, ease: 'none',
+        scrollTrigger: { trigger: bs1, start: 'top 75%', end: 'top top', scrub: 1 }
+      });
+    }
+
+    // Words light up one by one (0%–50% of 200vh scroll)
+    if (bs1Words.length) {
+      ScrollTrigger.create({
+        trigger: bs1, start: 'top top', end: '50% top', scrub: 1,
+        onUpdate: function (self) {
+          var n = Math.ceil(self.progress * bs1Words.length) - 1;
+          bs1Words.forEach(function (w, i) {
+            w.classList.toggle('lit', self.progress > 0 && i <= n);
+          });
         }
       });
     }
 
-    // Pin part1 for 150% scroll — stays pinned until text animation + fade out done
-    ScrollTrigger.create({
-      trigger: part1inner,
-      start: 'top top',
-      end: '+=150%',
-      pin: true,
-      pinSpacing: true
-    });
-
-    // Word highlight (first 60% of pinned scroll)
-    ScrollTrigger.create({
-      trigger: part1,
-      start: 'top top',
-      end: '40% top',
-      scrub: 1,
-      onUpdate: function (self) {
-        var progress = self.progress;
-        var total = words1.length;
-        var litCount = Math.ceil(progress * total) - 1;
-        words1.forEach(function (w, i) {
-          if (progress > 0 && i <= litCount) {
-            w.classList.add('is-lit');
-          } else {
-            w.classList.remove('is-lit');
-          }
-        });
-      }
-    });
-
-    // Fade out after text animation completes, then unpins
-    gsap.to(part1inner, {
-      opacity: 0,
-      y: -80,
-      filter: 'blur(20px)',
-      ease: 'none',
-      scrollTrigger: {
-        trigger: part1,
-        start: '45% top',
-        end: '60% top',
-        scrub: 1
-      }
-    });
+    // Everything fades out together (60%–85%)
+    if (bs1Sticky) {
+      gsap.to(bs1Sticky, {
+        opacity: 0, y: -100, filter: 'blur(20px)', ease: 'none',
+        scrollTrigger: { trigger: bs1, start: '60% top', end: '85% top', scrub: 1 }
+      });
+    }
   }
 
   // =============================================
-  // PART 2: Headline with char blur/brightness/scale (GSAP pinned)
-  // Pins when center, unpins when part3 hits center
+  // PART 2 — Headline char-by-char
+  // GSAP pinned. Chars reveal on scroll, hold,
+  // then blur out with brightness+scale.
   // =============================================
-  var part2 = document.querySelector('.rf-broken-part2');
-  var part2inner = document.querySelector('.rf-broken-part2__inner');
-  var part3 = document.querySelector('.rf-broken-part3');
+  var bs2 = document.querySelector('.rf-bs2');
+  var bs2Pin = bs2 ? bs2.querySelector('.rf-bs2__pin') : null;
+  if (bs2 && bs2Pin) {
+    var bs2Chars = splitChars(bs2.querySelector('.rf-bs2__headline'));
+    var numChars = bs2Chars.length;
 
-  if (part2 && part2inner) {
-    // Split headline into character spans
-    var headline = part2.querySelector('.rf-broken-part2__headline');
-    if (headline) {
-      var hText = headline.textContent.trim();
-      var charHTML = '';
-      for (var i = 0; i < hText.length; i++) {
-        if (hText[i] === ' ') {
-          charHTML += '<span class="char-space">&nbsp;</span>';
-        } else {
-          charHTML += '<span class="char">' + hText[i] + '</span>';
-        }
-      }
-      headline.innerHTML = charHTML;
-    }
-    var chars = part2.querySelectorAll('.rf-broken-part2__headline .char');
-
-    // Pin part2 for 250vh of scroll
+    // Pin for 250% scroll
     ScrollTrigger.create({
-      trigger: part2inner,
-      start: 'top top',
-      end: '+=250%',
-      pin: true,
-      pinSpacing: true
+      trigger: bs2Pin, start: 'top top', end: '+=250%',
+      pin: true, pinSpacing: true
     });
 
-    // State 1: Chars reveal one by one on scroll (scrub-linked)
-    var totalChars = chars.length;
+    // Phase A: chars reveal one by one (0–40% of pin scroll)
     ScrollTrigger.create({
-      trigger: part2,
-      start: 'top top',
-      end: '35% top',
-      scrub: 1,
+      trigger: bs2, start: 'top top', end: '30% top', scrub: 1,
       onUpdate: function (self) {
-        var progress = self.progress;
-        var litCount = Math.ceil(progress * totalChars) - 1;
-        chars.forEach(function (c, i) {
-          if (progress > 0 && i <= litCount) {
+        var n = Math.ceil(self.progress * numChars) - 1;
+        bs2Chars.forEach(function (c, i) {
+          if (self.progress > 0 && i <= n) {
             c.style.opacity = '1';
             c.style.filter = 'blur(0px) brightness(1)';
             c.style.transform = 'translateY(0) scale(1)';
@@ -318,57 +284,41 @@ function initBrokenSystem() {
       }
     });
 
-    // State 2: All chars blur out with brightness + scale down
+    // Phase B: all chars blur out with brightness + shrink (55–85%)
     ScrollTrigger.create({
-      trigger: part2,
-      start: '50% top',
-      end: '80% top',
-      scrub: 1,
+      trigger: bs2, start: '55% top', end: '85% top', scrub: 1,
       onUpdate: function (self) {
         var p = self.progress;
-        var blurVal = p * 30;
-        var brightVal = 1 + p * 9;
-        var yVal = p * -50;
-        var scaleVal = 1 - p * 0.7;
-        chars.forEach(function (c) {
-          c.style.filter = 'blur(' + blurVal + 'px) brightness(' + brightVal + ')';
-          c.style.transform = 'translateY(' + yVal + 'px) scale(' + scaleVal + ')';
+        var f = 'blur(' + (p * 30).toFixed(1) + 'px) brightness(' + (1 + p * 9).toFixed(1) + ')';
+        var t = 'translateY(' + (p * -50).toFixed(1) + 'px) scale(' + (1 - p * 0.7).toFixed(2) + ')';
+        bs2Chars.forEach(function (c) {
+          c.style.filter = f;
+          c.style.transform = t;
         });
       }
     });
   }
 
   // =============================================
-  // PART 3: Word color change (NOT pinned, bottom 20px trigger)
+  // PART 3 — Word color transition
+  // NOT pinned. Words #8d7d7d → #fff.
+  // Triggers when part3 top is 20px from bottom.
   // =============================================
-  if (part3) {
-    var text3 = part3.querySelector('.rf-broken-part3__text');
-    if (text3) {
-      var raw3 = text3.textContent.trim();
-      text3.innerHTML = raw3.split(/\s+/).map(function (w) {
-        return '<span class="word">' + w + '</span>';
-      }).join(' ');
-    }
-    var words3 = part3.querySelectorAll('.rf-broken-part3__text .word');
+  var bs3 = document.querySelector('.rf-bs3');
+  if (bs3) {
+    var bs3Words = splitWords(bs3.querySelector('.rf-bs3__text'));
 
-    ScrollTrigger.create({
-      trigger: part3,
-      start: 'top bottom-=20',
-      end: 'center center',
-      scrub: 1,
-      onUpdate: function (self) {
-        var progress = self.progress;
-        var total = words3.length;
-        var litCount = Math.ceil(progress * total) - 1;
-        words3.forEach(function (w, i) {
-          if (progress > 0 && i <= litCount) {
-            w.classList.add('is-lit');
-          } else {
-            w.classList.remove('is-lit');
-          }
-        });
-      }
-    });
+    if (bs3Words.length) {
+      ScrollTrigger.create({
+        trigger: bs3, start: 'top bottom-=20', end: 'center center', scrub: 1,
+        onUpdate: function (self) {
+          var n = Math.ceil(self.progress * bs3Words.length) - 1;
+          bs3Words.forEach(function (w, i) {
+            w.classList.toggle('lit', self.progress > 0 && i <= n);
+          });
+        }
+      });
+    }
   }
 }
 

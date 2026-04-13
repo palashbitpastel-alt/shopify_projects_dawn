@@ -1,70 +1,79 @@
 <style>
-/* === PART 1: Image + word highlight (GSAP pinned) === */
-.rf-broken-part1 {
+/* ========================================
+   PART 1 — Image + word-by-word text
+   Sticky within 200vh wrapper, fades out
+   ======================================== */
+.rf-bs1 {
   background: #000;
+  height: 200vh;
   position: relative;
   margin-bottom: -25vh;
 }
 
-.rf-broken-part1__inner {
+.rf-bs1__sticky {
+  position: sticky;
+  top: 0;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 0 5%;
-  gap: 40px;
+  gap: 32px;
+  will-change: opacity, transform, filter;
 }
 
-.rf-broken-part1__image-wrap {
+.rf-bs1__image {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 24px;
   overflow: hidden;
   max-width: 440px;
   width: 100%;
-  opacity: 0.6;
+  opacity: 0.4;
   transform: translateY(-40px);
+  will-change: opacity, transform;
 }
 
-.rf-broken-part1__image-wrap img {
+.rf-bs1__image img {
   width: 100%;
   height: auto;
   display: block;
 }
 
-.rf-broken-part1__caption {
+.rf-bs1__caption {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.4);
   text-align: center;
-  margin: -28px 0 0;
+  margin: -20px 0 0;
 }
 
-.rf-broken-part1__text {
+.rf-bs1__text {
   font-size: clamp(18px, 2.5vw, 22px);
-  color: #ffffff;
   line-height: 1.7;
   text-align: center;
   margin: 0;
-  max-width: 700px;
+  max-width: 680px;
 }
 
-.rf-broken-part1__text .word {
-  display: inline;
+.rf-bs1__text .w {
   color: rgba(255, 255, 255, 0.2);
   transition: color 0.15s ease;
 }
 
-.rf-broken-part1__text .word.is-lit {
-  color: #ffffff;
+.rf-bs1__text .w.lit {
+  color: #fff;
 }
 
-/* === PART 2: Big headline with blur/brightness/scale (pinned by GSAP) === */
-.rf-broken-part2 {
+/* ========================================
+   PART 2 — Headline char-by-char reveal
+   Pinned by GSAP, chars blur out with
+   brightness + scale at end
+   ======================================== */
+.rf-bs2 {
   background: #000;
-  position: relative;
 }
 
-.rf-broken-part2__inner {
+.rf-bs2__pin {
   height: 100vh;
   display: flex;
   align-items: center;
@@ -72,103 +81,91 @@
   padding: 0 5%;
 }
 
-.rf-broken-part2__headline {
+.rf-bs2__headline {
   font-size: clamp(42px, 6vw, 72px);
   font-weight: 900;
-  color: #ffffff;
+  color: #fff;
   line-height: 1.1;
   margin: 0;
   text-align: center;
   max-width: 900px;
 }
 
-.rf-broken-part2__headline .char {
+.rf-bs2__headline .ch {
   display: inline-block;
   opacity: 0;
   filter: blur(8px) brightness(1);
   transform: translateY(10px) scale(1);
 }
 
-.rf-broken-part2__headline .char.is-visible {
-  opacity: 1;
-  filter: blur(0px) brightness(1);
-  transform: translateY(0) scale(1);
-}
-
-.rf-broken-part2__headline .char-space {
+.rf-bs2__headline .sp {
   display: inline;
-  width: 0.3em;
 }
 
-/* === PART 3: Second paragraph word highlight (not pinned) === */
-.rf-broken-part3 {
+/* ========================================
+   PART 3 — Paragraph word color change
+   NOT pinned. Words go #8d7d7d → white
+   ======================================== */
+.rf-bs3 {
   background: #000;
-  padding: 120px 5%;
+  padding: 100px 5% 120px;
   display: flex;
-  align-items: center;
   justify-content: center;
 }
 
-.rf-broken-part3__text {
+.rf-bs3__text {
   font-size: clamp(17px, 2.2vw, 20px);
-  line-height: 1.7;
+  line-height: 1.8;
   margin: 0;
-  max-width: 800px;
+  max-width: 780px;
   text-align: center;
 }
 
-.rf-broken-part3__text .word {
-  display: inline;
+.rf-bs3__text .w {
   color: #8d7d7d;
-  opacity: 1;
   transition: color 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.rf-broken-part3__text .word.is-lit {
-  color: #ffffff;
+.rf-bs3__text .w.lit {
+  color: #fff;
 }
 
+/* ========================================
+   Mobile
+   ======================================== */
 @media (max-width: 749px) {
-  .rf-broken-part1__inner {
-    gap: 24px;
-    padding: 0 16px;
-  }
-
-  .rf-broken-part1__image-wrap {
-    max-width: 300px;
-  }
-
-  .rf-broken-part3 {
-    padding: 80px 5%;
-  }
+  .rf-bs1 { height: 180vh; }
+  .rf-bs1__sticky { gap: 20px; padding: 0 16px; }
+  .rf-bs1__image { max-width: 300px; }
+  .rf-bs3 { padding: 60px 5% 80px; }
 }
 </style>
 
-<!-- PART 1: Image + word highlight -->
-<div class="rf-broken-part1">
-  <div class="rf-broken-part1__inner">
+<!-- ===== PART 1 ===== -->
+<div class="rf-bs1">
+  <div class="rf-bs1__sticky">
     {%- if section.settings.image != blank -%}
-      <div class="rf-broken-part1__image-wrap">
+      <div class="rf-bs1__image">
         {{ section.settings.image | image_url: width: 880 | image_tag: loading: 'lazy' }}
       </div>
       {%- if section.settings.caption != blank -%}
-        <span class="rf-broken-part1__caption">{{ section.settings.caption }}</span>
+        <span class="rf-bs1__caption">{{ section.settings.caption }}</span>
       {%- endif -%}
     {%- endif -%}
-    <p class="rf-broken-part1__text">{{ section.settings.paragraph_1 }}</p>
+    <p class="rf-bs1__text">{{ section.settings.paragraph_1 }}</p>
   </div>
 </div>
 
-<!-- PART 2: Big headline with char animation -->
-<div class="rf-broken-part2">
-  <div class="rf-broken-part2__inner">
-    <h2 class="rf-broken-part2__headline">{{ section.settings.headline }}</h2>
+<!-- ===== PART 2 ===== -->
+<div class="rf-bs2">
+  <div class="rf-bs2__pin">
+    <h2 class="rf-bs2__headline">{{ section.settings.headline }}</h2>
   </div>
 </div>
 
-<!-- PART 3: Second paragraph with word color change -->
-<div class="rf-broken-part3">
-  <p class="rf-broken-part3__text">{{ section.settings.paragraph_2 }}</p>
+<!-- ===== PART 3 ===== -->
+<div class="rf-bs3">
+  <p class="rf-bs3__text">{{ section.settings.paragraph_2 }}</p>
 </div>
 
 {% schema %}
@@ -177,24 +174,6 @@
   "tag": "section",
   "class": "rf-broken-section",
   "settings": [
-    {
-      "type": "text",
-      "id": "headline",
-      "label": "Headline",
-      "default": "Real Food can solve this crisis."
-    },
-    {
-      "type": "textarea",
-      "id": "paragraph_1",
-      "label": "Paragraph 1 (under image)",
-      "default": "For decades we've been misled by guidance that prioritized highly processed food, and are now facing rates of unprecedented chronic disease."
-    },
-    {
-      "type": "textarea",
-      "id": "paragraph_2",
-      "label": "Paragraph 2 (after headline)",
-      "default": "For the first time, official U.S. guidance calls on Americans to avoid highly processed food. This is not an attack on industry or a legal definition. It reflects a public health reality families live with every day."
-    },
     {
       "type": "image_picker",
       "id": "image",
@@ -205,12 +184,26 @@
       "id": "caption",
       "label": "Image Caption",
       "default": "1992 Food Pyramid"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_1",
+      "label": "Paragraph 1 (under image)",
+      "default": "For decades we've been misled by guidance that prioritized highly processed food, and are now facing rates of unprecedented chronic disease."
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Real Food can solve this crisis."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_2",
+      "label": "Paragraph 2 (after headline)",
+      "default": "For the first time, official U.S. guidance calls on Americans to avoid highly processed food. This is not an attack on industry or a legal definition. It reflects a public health reality families live with every day."
     }
   ],
-  "presets": [
-    {
-      "name": "Broken System"
-    }
-  ]
+  "presets": [{ "name": "Broken System" }]
 }
 {% endschema %}
