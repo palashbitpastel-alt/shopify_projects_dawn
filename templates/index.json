@@ -93,7 +93,15 @@
           "type": "panel",
           "settings": {
             "label": "Protein, Dairy, & Healthy Fats",
-            "body": "We are ending the war on protein and healthy fats. Meat, eggs, dairy, and fish are real food — nutrient-dense and essential."
+            "body": "We are ending the war on protein and healthy fats. Meat, eggs, dairy, and fish are real food — nutrient-dense and essential.",
+            "image_1": "shopify://shop_images/putting-on-your-shoes_925x_62d33da4-e3d1-4a29-a948-84722b10ad23.jpg",
+            "image_2": "shopify://shop_images/woman-in-the-city_925x_c1ce06cc-cb0b-42b1-9c2e-88d0ff86d7c9.jpg",
+            "image_3": "shopify://shop_images/womens-red-t-shirt_925x_aba4eb72-cba8-4e0e-b764-ec88233f5a3c.jpg",
+            "image_4": "shopify://shop_images/man-adjusts-blue-tuxedo-bowtie_925x_98593e21-3ca0-43fa-9e2a-909534aa1c58.jpg",
+            "image_5": "shopify://shop_images/urban-fashion_925x_61da17a1-264a-4c79-8704-1068fea54240.jpg",
+            "image_6": "shopify://shop_images/red-plaid-shirt_925x_fd3f63ac-6f2e-497d-89f9-e9faa828cf5e.jpg",
+            "image_7": "shopify://shop_images/woman-outside-brownstone_925x_4481bea7-ef4a-4da2-b839-f9c5d6c0d9f9.jpg",
+            "image_8": "shopify://shop_images/young-hip-woman-at-carnival_925x_8730669d-ab48-4b3c-88c8-7d1ec8ab66ad.jpg"
           }
         },
         "panel_2": {
