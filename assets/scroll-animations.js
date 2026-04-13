@@ -325,12 +325,37 @@ function initBrokenSystem() {
 function initEatRealFood() {
   console.log('[ScrollAnim] initEatRealFood loaded');
 
+  // Hero title scale-up entrance
+  var erfTitle = document.querySelector('.rf-erf__title');
+  if (erfTitle) {
+    gsap.fromTo(erfTitle,
+      { opacity: 0, scale: 0.85, y: 40 },
+      {
+        opacity: 1, scale: 1, y: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: erfTitle, start: 'top 85%', once: true }
+      }
+    );
+  }
+
+  // Collage image scale-up
+  var collage = document.querySelector('.rf-erf__collage');
+  if (collage) {
+    gsap.fromTo(collage,
+      { opacity: 0, scale: 0.8 },
+      {
+        opacity: 1, scale: 1, duration: 1, delay: 0.2, ease: 'power3.out',
+        scrollTrigger: { trigger: collage, start: 'top 85%', once: true }
+      }
+    );
+  }
+
   // Animate each food category panel
   var panels = document.querySelectorAll('.rf-erf__panel');
   panels.forEach(function (panel) {
     var text = panel.querySelector('.rf-erf__panel-text');
     var imgs = panel.querySelectorAll('.rf-erf__panel-img');
 
+    // Text slides in
     if (text) {
       gsap.to(text, {
         opacity: 1, x: 0, duration: 0.9, ease: 'power3.out',
@@ -338,12 +363,74 @@ function initEatRealFood() {
       });
     }
 
+    // Food images scatter in from random positions
     imgs.forEach(function (img, j) {
-      gsap.to(img, {
-        opacity: 1, y: 0, duration: 0.7, delay: j * 0.08, ease: 'power3.out',
-        scrollTrigger: { trigger: panel, start: 'top 75%', once: true }
-      });
+      gsap.fromTo(img,
+        {
+          opacity: 0,
+          x: (Math.random() - 0.5) * 100,
+          y: 30 + Math.random() * 40,
+          rotation: (Math.random() - 0.5) * 12,
+          scale: 0.7
+        },
+        {
+          opacity: 1, x: 0, y: 0, rotation: 0, scale: 1,
+          duration: 0.8, delay: j * 0.1, ease: 'power3.out',
+          scrollTrigger: { trigger: panel, start: 'top 75%', once: true }
+        }
+      );
     });
+  });
+}
+
+function initResources() {
+  console.log('[ScrollAnim] initResources loaded');
+
+  var section = document.querySelector('.rf-resources');
+  if (!section) return;
+
+  var text = section.querySelector('.rf-resources__text');
+  var image = section.querySelector('.rf-resources__image');
+
+  if (text) {
+    gsap.fromTo(text,
+      { opacity: 0, x: -40 },
+      { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out',
+        scrollTrigger: { trigger: section, start: 'top 75%', once: true } }
+    );
+  }
+  if (image) {
+    gsap.fromTo(image,
+      { opacity: 0, x: 40 },
+      { opacity: 1, x: 0, duration: 0.9, delay: 0.15, ease: 'power3.out',
+        scrollTrigger: { trigger: section, start: 'top 75%', once: true } }
+    );
+  }
+}
+
+function initFullStory() {
+  console.log('[ScrollAnim] initFullStory loaded');
+
+  var section = document.querySelector('.rf-story');
+  if (!section) return;
+
+  gsap.fromTo(section.querySelector('.rf-story__inner'),
+    { opacity: 0, y: 40 },
+    { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: section, start: 'top 80%', once: true } }
+  );
+}
+
+function initFAQ() {
+  console.log('[ScrollAnim] initFAQ loaded');
+
+  var items = document.querySelectorAll('.rf-faq__item');
+  items.forEach(function (item, i) {
+    gsap.fromTo(item,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, delay: i * 0.08, ease: 'power3.out',
+        scrollTrigger: { trigger: item, start: 'top 90%', once: true } }
+    );
   });
 }
 
@@ -355,6 +442,7 @@ function initClosingQuote() {
 
   // Split into word spans
   var raw = quoteEl.textContent.trim();
+  // Preserve bold words
   quoteEl.innerHTML = raw.split(/\s+/).map(function (w) {
     return '<span class="w">' + w + '</span>';
   }).join(' ');
@@ -369,6 +457,19 @@ function initClosingQuote() {
       });
     }
   });
+}
+
+function initEatRealCarousel() {
+  console.log('[ScrollAnim] initEatRealCarousel loaded');
+
+  var title = document.querySelector('.rf-carousel__title');
+  if (title) {
+    gsap.fromTo(title,
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+        scrollTrigger: { trigger: title, start: 'top 85%', once: true } }
+    );
+  }
 }
 
 function initWinningSection() {
@@ -386,7 +487,11 @@ document.addEventListener('DOMContentLoaded', function () {
   initTextReveal();
   initBrokenSystem();
   initEatRealFood();
+  initResources();
+  initFullStory();
+  initFAQ();
   initClosingQuote();
+  initEatRealCarousel();
   initWinningSection();
 
   console.log('[ScrollAnim] All animations initialized.');
