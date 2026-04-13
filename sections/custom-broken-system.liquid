@@ -1,0 +1,147 @@
+<style>
+.rf-broken {
+  background: #000000;
+  width: 100%;
+  padding: 100px 5%;
+  overflow: hidden;
+}
+
+.rf-broken__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.rf-broken__left {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+.rf-broken__headline {
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.rf-broken__headline .word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  margin-right: 0.25em;
+}
+
+.rf-broken__para {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.7;
+  margin: 28px 0 0;
+}
+
+.rf-broken__right {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+.rf-broken__image {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.rf-broken__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.rf-broken__caption {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  margin: 12px 0 0;
+}
+
+@media (max-width: 749px) {
+  .rf-broken__grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .rf-broken {
+    padding: 72px 5%;
+  }
+}
+</style>
+
+<section class="rf-broken" data-section-id="{{ section.id }}">
+  <div class="rf-broken__grid">
+    <div class="rf-broken__left">
+      <h2 class="rf-broken__headline rf-headline" data-split-words>
+        {{ section.settings.headline }}
+      </h2>
+      <p class="rf-broken__para">{{ section.settings.paragraph_1 }}</p>
+      <p class="rf-broken__para">{{ section.settings.paragraph_2 }}</p>
+    </div>
+
+    <div class="rf-broken__right">
+      {%- if section.settings.image != blank -%}
+        <div class="rf-broken__image">
+          {{ section.settings.image | image_url: width: 800 | image_tag: loading: 'lazy' }}
+        </div>
+        {%- if section.settings.caption != blank -%}
+          <p class="rf-broken__caption">{{ section.settings.caption }}</p>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Broken System",
+  "tag": "section",
+  "class": "rf-broken-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Real Food can solve this crisis."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_1",
+      "label": "Paragraph 1",
+      "default": "For decades we've been misled by guidance that prioritized highly processed food over the real, nutrient-dense food that sustained generations before us."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_2",
+      "label": "Paragraph 2",
+      "default": "For the first time, official U.S. guidance calls on Americans to avoid highly processed food and return to eating real food — meat, fruit, vegetables, and dairy."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (e.g. 1992 Food Pyramid)"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Image Caption",
+      "default": "1992 Food Pyramid"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Broken System"
+    }
+  ]
+}
+{% endschema %}

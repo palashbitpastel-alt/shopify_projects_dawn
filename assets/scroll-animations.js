@@ -162,6 +162,69 @@ function initTextReveal() {
 
 function initPyramidSection() {
   console.log('[ScrollAnim] initPyramidSection loaded');
+
+  var section = document.querySelector('.rf-broken');
+  if (!section) return;
+
+  var left = section.querySelector('.rf-broken__left');
+  var right = section.querySelector('.rf-broken__right');
+  var headline = section.querySelector('.rf-broken__headline');
+
+  // Split headline into words and wrap each in a span
+  if (headline) {
+    var text = headline.textContent.trim();
+    headline.innerHTML = text.split(/\s+/).map(function (word) {
+      return '<span class="word">' + word + '</span>';
+    }).join(' ');
+  }
+
+  // Left column slide in
+  if (left) {
+    gsap.to(left, {
+      opacity: 1,
+      x: 0,
+      duration: 0.9,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 75%',
+        once: true
+      }
+    });
+  }
+
+  // Word-by-word stagger on headline
+  var words = section.querySelectorAll('.rf-broken__headline .word');
+  if (words.length) {
+    gsap.to(words, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      stagger: 0.06,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 75%',
+        once: true
+      }
+    });
+  }
+
+  // Right column slide in
+  if (right) {
+    gsap.to(right, {
+      opacity: 1,
+      x: 0,
+      duration: 0.9,
+      delay: 0.15,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 75%',
+        once: true
+      }
+    });
+  }
 }
 
 function initWinningSection() {

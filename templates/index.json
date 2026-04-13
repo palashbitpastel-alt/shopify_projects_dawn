@@ -26,6 +26,10 @@
         "start_radius": 24
       }
     },
+    "custom_broken_system": {
+      "type": "custom-broken-system",
+      "settings": {}
+    },
     "custom_stats": {
       "type": "custom-stats",
       "settings": {
@@ -166,6 +170,7 @@
   "order": [
     "custom_hero",
     "custom_video_expand",
+    "custom_broken_system",
     "custom_stats",
     "image_banner",
     "featured_collection",
