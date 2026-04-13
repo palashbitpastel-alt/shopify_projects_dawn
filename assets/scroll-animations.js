@@ -112,8 +112,7 @@ function initVideoExpand() {
       start: 'top top',
       end: 'bottom bottom',
       scrub: 1,
-      pin: '.video-expand__sticky',
-      pinSpacing: false
+      pin: '.video-expand__sticky'
     }
   });
 }

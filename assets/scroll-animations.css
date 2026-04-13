@@ -83,8 +83,6 @@ a {
 }
 
 .video-expand__sticky {
-  position: sticky;
-  top: 0;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -93,7 +91,7 @@ a {
 }
 
 .video-expand__wrapper {
-  width: var(--start-w, 55vw);
+  width: var(--start-w, 80vw);
   height: 70vh;
   border-radius: var(--start-r, 16px);
   overflow: hidden;
