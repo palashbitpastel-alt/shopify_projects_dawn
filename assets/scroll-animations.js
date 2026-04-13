@@ -115,7 +115,7 @@ function initVideoExpand() {
       scrollTrigger: {
         trigger: '.video-expand-section',
         start: 'top bottom-=100',
-        end: 'top top',
+        end: 'top 25%',
         scrub: 1
       }
     }
