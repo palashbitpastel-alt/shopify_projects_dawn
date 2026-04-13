@@ -17,6 +17,14 @@
         "subtext": "America is the greatest country on Earth. And the sickest. Highly processed food has hollowed out our health, driving obesity, diabetes, heart disease, and early death. The truth is simple: real food restores health."
       }
     },
+    "custom_video_expand": {
+      "type": "custom-video-expand",
+      "settings": {
+        "video_mp4": "",
+        "start_width": 55,
+        "start_radius": 16
+      }
+    },
     "custom_stats": {
       "type": "custom-stats",
       "settings": {
@@ -156,6 +164,7 @@
   },
   "order": [
     "custom_hero",
+    "custom_video_expand",
     "custom_stats",
     "image_banner",
     "featured_collection",
