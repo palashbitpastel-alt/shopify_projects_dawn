@@ -88,7 +88,7 @@ a {
 .video-expand__wrapper {
   width: var(--start-w, 80vw);
   height: 100vh;
-  border-radius: var(--start-r, 16px);
+  border-radius: var(--start-r, 24px);
   overflow: hidden;
   will-change: width, border-radius;
   margin: 0 auto;

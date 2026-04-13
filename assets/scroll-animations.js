@@ -141,7 +141,7 @@ function initVideoExpand() {
   }
 
   gsap.fromTo(wrapper,
-    { width: startWidth, borderRadius: 'var(--start-r, 16px)' },
+    { width: startWidth, borderRadius: 'var(--start-r, 24px)' },
     {
       width: '100vw',
       borderRadius: '0px',
