@@ -2,7 +2,7 @@
 .rf-stats {
   background: #000000;
   width: 100%;
-  padding: 120px 5%;
+  padding: var(--padding-top, 120px) var(--padding-side, 5%) var(--padding-bottom, 120px);
 }
 
 .rf-stats__headline {
@@ -97,7 +97,7 @@
 }
 </style>
 
-<section class="rf-stats" data-section-id="{{ section.id }}">
+<section class="rf-stats" data-section-id="{{ section.id }}" style="--padding-top: {{ section.settings.padding_top }}px; --padding-bottom: {{ section.settings.padding_bottom }}px; --padding-side: {{ section.settings.padding_side }}%">
   <h2 class="rf-stats__headline rf-headline">{{ section.settings.headline }}</h2>
   <p class="rf-stats__subheadline">{{ section.settings.subheadline }}</p>
 
@@ -210,6 +210,36 @@
       "id": "stat3_label",
       "label": "Stat 3 Label",
       "default": "of U.S. healthcare spending goes to treating chronic disease"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_side",
+      "min": 0,
+      "max": 15,
+      "step": 1,
+      "unit": "%",
+      "label": "Padding Left/Right",
+      "default": 5
     }
   ],
   "presets": [
