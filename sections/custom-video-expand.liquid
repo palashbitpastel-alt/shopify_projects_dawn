@@ -4,6 +4,12 @@
   style="--start-w: {{ section.settings.start_width }}vw; --start-r: {{ section.settings.start_radius }}px"
 >
   <div class="video-expand__wrapper">
+    <button class="video-expand__play-btn" aria-label="Expand video">
+      <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="30" cy="30" r="29" stroke="white" stroke-width="2" fill="rgba(0,0,0,0.3)"/>
+        <polygon points="24,18 24,42 44,30" fill="white"/>
+      </svg>
+    </button>
     {%- if section.settings.video_mp4 != blank -%}
       <video
         autoplay

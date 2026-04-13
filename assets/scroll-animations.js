@@ -106,6 +106,40 @@ function initVideoExpand() {
   var section = document.querySelector('.video-expand-section');
   var startWidth = getComputedStyle(section).getPropertyValue('--start-w').trim() || '80vw';
 
+  // Play button: click = fullscreen, double-click = exit
+  var playBtn = document.querySelector('.video-expand__play-btn');
+  if (playBtn) {
+    var clickTimer = null;
+
+    playBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (clickTimer) {
+        clearTimeout(clickTimer);
+        clickTimer = null;
+        // Double click — exit fullscreen
+        wrapper.classList.remove('is-fullscreen');
+        document.body.style.overflow = '';
+        var video = wrapper.querySelector('video');
+        if (video) {
+          video.muted = true;
+          video.controls = false;
+        }
+      } else {
+        clickTimer = setTimeout(function () {
+          clickTimer = null;
+          // Single click — enter fullscreen
+          wrapper.classList.add('is-fullscreen');
+          document.body.style.overflow = 'hidden';
+          var video = wrapper.querySelector('video');
+          if (video) {
+            video.muted = false;
+            video.controls = true;
+          }
+        }, 250);
+      }
+    });
+  }
+
   gsap.fromTo(wrapper,
     { width: startWidth, borderRadius: 'var(--start-r, 16px)' },
     {
