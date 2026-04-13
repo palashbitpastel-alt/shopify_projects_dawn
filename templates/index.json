@@ -20,8 +20,9 @@
     "custom_video_expand": {
       "type": "custom-video-expand",
       "settings": {
+        "video_url": "",
         "video_mp4": "",
-        "start_width": 55,
+        "start_width": 80,
         "start_radius": 16
       }
     },
