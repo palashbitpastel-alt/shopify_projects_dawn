@@ -65,6 +65,45 @@
   margin: 12px auto 0;
 }
 
+/* --- Counter Bar --- */
+.rf-stats__bar-track {
+  width: 100%;
+  max-width: 260px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
+  margin: 20px auto 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.rf-stats__bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 100px;
+  background: linear-gradient(90deg, #cc0000, #ff2222, #ff4444);
+  position: relative;
+  transition: none;
+  box-shadow: 0 0 12px rgba(204, 0, 0, 0.5), 0 0 30px rgba(204, 0, 0, 0.2);
+}
+
+.rf-stats__bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  animation: barShimmer 2s infinite;
+  border-radius: 100px;
+}
+
+@keyframes barShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
 @media (max-width: 749px) {
   .rf-stats__grid {
     grid-template-columns: 1fr;
@@ -92,6 +131,9 @@
       <p class="rf-stats__number">
         <span class="rf-stats__value" data-target="{{ section.settings.stat1_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat1_unit }}</span>
       </p>
+      <div class="rf-stats__bar-track">
+        <div class="rf-stats__bar-fill" data-bar-target="{{ section.settings.stat1_number }}"></div>
+      </div>
       <p class="rf-stats__label">{{ section.settings.stat1_label }}</p>
     </div>
 
@@ -99,6 +141,9 @@
       <p class="rf-stats__number">
         <span class="rf-stats__value" data-target="{{ section.settings.stat2_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat2_unit }}</span>
       </p>
+      <div class="rf-stats__bar-track">
+        <div class="rf-stats__bar-fill" data-bar-target="{{ section.settings.stat2_number }}"></div>
+      </div>
       <p class="rf-stats__label">{{ section.settings.stat2_label }}</p>
     </div>
 
@@ -106,6 +151,9 @@
       <p class="rf-stats__number">
         <span class="rf-stats__value" data-target="{{ section.settings.stat3_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat3_unit }}</span>
       </p>
+      <div class="rf-stats__bar-track">
+        <div class="rf-stats__bar-fill" data-bar-target="{{ section.settings.stat3_number }}"></div>
+      </div>
       <p class="rf-stats__label">{{ section.settings.stat3_label }}</p>
     </div>
   </div>

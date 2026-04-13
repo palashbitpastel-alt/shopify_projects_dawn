@@ -2,6 +2,27 @@
    SCROLL ANIMATIONS - Main JS Controller
    ============================================ */
 
+// Initialize Lenis smooth scroll
+var lenis = new Lenis({
+  duration: 1.2,
+  easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+  smoothWheel: true,
+  touchMultiplier: 1.5
+});
+
+function raf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
+
+// Connect Lenis to GSAP ScrollTrigger
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(function (time) {
+  lenis.raf(time * 1000);
+});
+gsap.ticker.lagSmoothing(0);
+
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
@@ -72,10 +93,14 @@ function initStatsCounters() {
     }
   });
 
-  // Count-up each number with stagger
+  // Count-up each number + bar fill with stagger
   valueEls.forEach(function (el, i) {
     var target = parseInt(el.getAttribute('data-target'), 10) || 0;
     var obj = { val: 0 };
+
+    // Find the bar fill in the same stat item
+    var statItem = el.closest('.rf-stats__item');
+    var barFill = statItem ? statItem.querySelector('.rf-stats__bar-fill') : null;
 
     gsap.to(obj, {
       val: target,
@@ -89,6 +114,9 @@ function initStatsCounters() {
       },
       onUpdate: function () {
         el.textContent = Math.round(obj.val);
+        if (barFill) {
+          barFill.style.width = Math.round(obj.val) + '%';
+        }
       }
     });
   });
