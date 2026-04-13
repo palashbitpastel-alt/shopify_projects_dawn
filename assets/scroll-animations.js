@@ -271,9 +271,9 @@ function initBrokenSystem() {
     onUpdate: function (self) {
       var progress = self.progress;
       var total = words1.length;
-      var litCount = Math.floor(progress * total);
+      var litCount = Math.ceil(progress * total) - 1;
       words1.forEach(function (w, i) {
-        if (i <= litCount) {
+        if (progress > 0 && i <= litCount) {
           w.classList.add('is-lit');
         } else {
           w.classList.remove('is-lit');
@@ -317,9 +317,9 @@ function initBrokenSystem() {
     onUpdate: function (self) {
       var progress = self.progress;
       var total = chars.length;
-      var litCount = Math.floor(progress * total);
+      var litCount = Math.ceil(progress * total) - 1;
       chars.forEach(function (c, i) {
-        if (i <= litCount) {
+        if (progress > 0 && i <= litCount) {
           c.classList.add('is-visible');
         } else {
           c.classList.remove('is-visible');
@@ -362,9 +362,9 @@ function initBrokenSystem() {
     onUpdate: function (self) {
       var progress = self.progress;
       var total = words2.length;
-      var litCount = Math.floor(progress * total);
+      var litCount = Math.ceil(progress * total) - 1;
       words2.forEach(function (w, i) {
-        if (i <= litCount) {
+        if (progress > 0 && i <= litCount) {
           w.classList.add('is-lit');
         } else {
           w.classList.remove('is-lit');
