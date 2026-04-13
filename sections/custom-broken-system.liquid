@@ -3,7 +3,12 @@
   background: #000;
   width: 100%;
   position: relative;
-  height: 400vh;
+}
+
+/* Pinned area for scene 1 + 2 */
+.rf-broken__pinned {
+  height: 300vh;
+  position: relative;
 }
 
 .rf-broken__sticky {
@@ -112,16 +117,12 @@
   width: 0.3em;
 }
 
-/* --- Part 3: Second paragraph --- */
+/* --- Part 3: Second paragraph (NOT pinned, normal scroll) --- */
 .rf-broken__scene3 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  max-width: 800px;
-  text-align: center;
-  opacity: 0;
+  padding: 120px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .rf-broken__text2 {
@@ -129,6 +130,8 @@
   color: #ffffff;
   line-height: 1.7;
   margin: 0;
+  max-width: 800px;
+  text-align: center;
 }
 
 .rf-broken__text2 .word {
@@ -142,8 +145,8 @@
 }
 
 @media (max-width: 749px) {
-  .rf-broken {
-    height: 350vh;
+  .rf-broken__pinned {
+    height: 250vh;
   }
 
   .rf-broken__scene1 {
@@ -154,35 +157,38 @@
   .rf-broken__image-wrap {
     max-width: 300px;
   }
+
+  .rf-broken__scene3 {
+    padding: 80px 5%;
+  }
 }
 </style>
 
 <section class="rf-broken" data-section-id="{{ section.id }}">
-  <div class="rf-broken__sticky">
-
-    <!-- Scene 1: Image + first paragraph with word highlight -->
-    <div class="rf-broken__scene1" data-scene="1">
-      {%- if section.settings.image != blank -%}
-        <div class="rf-broken__image-wrap">
-          {{ section.settings.image | image_url: width: 880 | image_tag: loading: 'lazy' }}
-        </div>
-        {%- if section.settings.caption != blank -%}
-          <span class="rf-broken__caption">{{ section.settings.caption }}</span>
+  <!-- Pinned area: scene 1 + scene 2 -->
+  <div class="rf-broken__pinned">
+    <div class="rf-broken__sticky">
+      <div class="rf-broken__scene1" data-scene="1">
+        {%- if section.settings.image != blank -%}
+          <div class="rf-broken__image-wrap">
+            {{ section.settings.image | image_url: width: 880 | image_tag: loading: 'lazy' }}
+          </div>
+          {%- if section.settings.caption != blank -%}
+            <span class="rf-broken__caption">{{ section.settings.caption }}</span>
+          {%- endif -%}
         {%- endif -%}
-      {%- endif -%}
-      <p class="rf-broken__text1" data-split-words>{{ section.settings.paragraph_1 }}</p>
-    </div>
+        <p class="rf-broken__text1" data-split-words>{{ section.settings.paragraph_1 }}</p>
+      </div>
 
-    <!-- Scene 2: Big headline with character reveal -->
-    <div class="rf-broken__scene2" data-scene="2">
-      <h2 class="rf-broken__headline" data-split-chars>{{ section.settings.headline }}</h2>
+      <div class="rf-broken__scene2" data-scene="2">
+        <h2 class="rf-broken__headline" data-split-chars>{{ section.settings.headline }}</h2>
+      </div>
     </div>
+  </div>
 
-    <!-- Scene 3: Second paragraph with word highlight -->
-    <div class="rf-broken__scene3" data-scene="3">
-      <p class="rf-broken__text2" data-split-words>{{ section.settings.paragraph_2 }}</p>
-    </div>
-
+  <!-- Scene 3: Not pinned, scrolls normally -->
+  <div class="rf-broken__scene3" data-scene="3">
+    <p class="rf-broken__text2" data-split-words>{{ section.settings.paragraph_2 }}</p>
   </div>
 </section>
 

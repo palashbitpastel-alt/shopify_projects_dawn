@@ -190,6 +190,7 @@ function initBrokenSystem() {
   var section = document.querySelector('.rf-broken');
   if (!section) return;
 
+  var pinned = section.querySelector('.rf-broken__pinned');
   var scene1 = section.querySelector('.rf-broken__scene1');
   var scene2 = section.querySelector('.rf-broken__scene2');
   var scene3 = section.querySelector('.rf-broken__scene3');
@@ -231,22 +232,11 @@ function initBrokenSystem() {
   }
   var words2 = section.querySelectorAll('.rf-broken__text2 .word');
 
-  // --- Pin the sticky container ---
-  ScrollTrigger.create({
-    trigger: section,
-    start: 'top top',
-    end: 'bottom bottom',
-    pin: '.rf-broken__sticky',
-    pinSpacing: false
-  });
+  // =============================================
+  // PINNED AREA: Scene 1 + Scene 2 (300vh scroll)
+  // =============================================
 
-  // Total scroll = 400vh, each scene gets a portion
-  // Scene 1: 0% – 35% (image + word highlight + fade out)
-  // Scene 2: 30% – 65% (headline char reveal + fade out)
-  // Scene 3: 60% – 95% (word highlight)
-
-  // === SCENE 1: Image scroll-in animation ===
-  // Starts when section top is at 25% from bottom of viewport, ends when pinned (top top)
+  // === SCENE 1: Image scroll-in ===
   var imageWrap = section.querySelector('.rf-broken__image-wrap');
   if (imageWrap) {
     gsap.to(imageWrap, {
@@ -254,7 +244,7 @@ function initBrokenSystem() {
       y: 0,
       ease: 'none',
       scrollTrigger: {
-        trigger: section,
+        trigger: pinned,
         start: 'top 75%',
         end: 'top top',
         scrub: 1
@@ -262,11 +252,11 @@ function initBrokenSystem() {
     });
   }
 
-  // === SCENE 1: Word highlight on scroll ===
+  // === SCENE 1: Word highlight ===
   ScrollTrigger.create({
-    trigger: section,
+    trigger: pinned,
     start: 'top top',
-    end: '25% top',
+    end: '30% top',
     scrub: 1,
     onUpdate: function (self) {
       var progress = self.progress;
@@ -282,37 +272,37 @@ function initBrokenSystem() {
     }
   });
 
-  // Scene 1 fade out: opacity→0, blur, translateY up
+  // Scene 1 fade out
   gsap.to(scene1, {
     opacity: 0,
     y: -100,
     filter: 'blur(20px)',
     ease: 'none',
     scrollTrigger: {
-      trigger: section,
-      start: '25% top',
-      end: '35% top',
+      trigger: pinned,
+      start: '30% top',
+      end: '40% top',
       scrub: 1
     }
   });
 
-  // === SCENE 2: Headline character reveal ===
+  // === SCENE 2: Headline fade in ===
   gsap.to(scene2, {
     opacity: 1,
     ease: 'none',
     scrollTrigger: {
-      trigger: section,
-      start: '30% top',
-      end: '35% top',
+      trigger: pinned,
+      start: '35% top',
+      end: '42% top',
       scrub: 1
     }
   });
 
   // Char-by-char reveal
   ScrollTrigger.create({
-    trigger: section,
-    start: '35% top',
-    end: '50% top',
+    trigger: pinned,
+    start: '42% top',
+    end: '65% top',
     scrub: 1,
     onUpdate: function (self) {
       var progress = self.progress;
@@ -328,36 +318,27 @@ function initBrokenSystem() {
     }
   });
 
-  // Scene 2 fade out
+  // Scene 2 ends blurry + small — does NOT fully disappear
   gsap.to(scene2, {
-    opacity: 0,
-    y: -80,
-    filter: 'blur(20px)',
+    opacity: 0.15,
+    scale: 0.85,
+    filter: 'blur(6px)',
     ease: 'none',
     scrollTrigger: {
-      trigger: section,
-      start: '55% top',
-      end: '65% top',
+      trigger: pinned,
+      start: '75% top',
+      end: '100% top',
       scrub: 1
     }
   });
 
-  // === SCENE 3: Second paragraph word highlight ===
-  gsap.to(scene3, {
-    opacity: 1,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: section,
-      start: '60% top',
-      end: '65% top',
-      scrub: 1
-    }
-  });
-
+  // =============================================
+  // SCENE 3: NOT pinned — triggers at bottom 20px
+  // =============================================
   ScrollTrigger.create({
-    trigger: section,
-    start: '65% top',
-    end: '90% top',
+    trigger: scene3,
+    start: 'top bottom-=20',
+    end: 'bottom 40%',
     scrub: 1,
     onUpdate: function (self) {
       var progress = self.progress;
@@ -370,19 +351,6 @@ function initBrokenSystem() {
           w.classList.remove('is-lit');
         }
       });
-    }
-  });
-
-  // Scene 3 fade out at end
-  gsap.to(scene3, {
-    opacity: 0,
-    y: -60,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: section,
-      start: '92% top',
-      end: '100% top',
-      scrub: 1
     }
   });
 }
