@@ -233,8 +233,16 @@ function initBrokenSystem() {
   var words2 = section.querySelectorAll('.rf-broken__text2 .word');
 
   // =============================================
-  // PINNED AREA: Scene 1 + Scene 2 (300vh scroll)
+  // PINNED AREA: Scene 1 + Scene 2
+  // Pin the sticky container for 200vh of scroll
   // =============================================
+  ScrollTrigger.create({
+    trigger: '.rf-broken__sticky',
+    start: 'top top',
+    end: '+=200%',
+    pin: true,
+    pinSpacing: true
+  });
 
   // === SCENE 1: Image scroll-in ===
   var imageWrap = section.querySelector('.rf-broken__image-wrap');
