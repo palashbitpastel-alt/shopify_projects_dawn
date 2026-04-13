@@ -20,8 +20,8 @@
     "custom_video_expand": {
       "type": "custom-video-expand",
       "settings": {
-        "video_url": "https://youtu.be/f7C5uYCiAs0?si=mVnvYJTmI3STGuRW",
-        "video_mp4": "",
+        "video_url": "",
+        "video_mp4": "https://pixabay.com/videos/download/video-345137_medium.mp4",
         "start_width": 80,
         "start_radius": 24
       }
