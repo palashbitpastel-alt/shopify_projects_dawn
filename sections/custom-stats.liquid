@@ -30,11 +30,11 @@
 }
 
 .rf-stats__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   gap: 40px;
   max-width: 1200px;
   margin: 0 auto;
+  justify-content: space-between;
   /* Initial state for animation */
   opacity: 0;
   transform: translateY(30px);
@@ -45,6 +45,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: auto;
 }
 
 /* --- Tall Red Bar Block --- */
@@ -61,7 +62,7 @@
   font-weight: 900;
   color: #ffffff;
   line-height: 1;
-  margin: 0 0 12px;
+  margin: 0 0 -80px;
   white-space: nowrap;
   z-index: 2;
 }
@@ -73,6 +74,7 @@
   position: relative;
   min-height: 0;
   transition: height 0.05s linear;
+  display: block !important;
 }
 
 .rf-stats__unit {
