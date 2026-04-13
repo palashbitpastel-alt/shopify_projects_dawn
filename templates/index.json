@@ -21,7 +21,7 @@
       "type": "custom-video-expand",
       "settings": {
         "video_url": "",
-        "video_mp4": "",
+        "video_mp4": "https://videocdn.cdnpk.net/videos/ca9b7914-7d6b-45c8-accd-273670c86ea8/horizontal/previews/clear/large.mp4?token=exp=1776066282~hmac=312abd9cd52d51771e3b9363e25336c99414244eba8f7cc2d007126979c0e291",
         "start_width": 80,
         "start_radius": 16
       }
