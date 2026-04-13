@@ -28,22 +28,30 @@
     },
     "custom_broken_system": {
       "type": "custom-broken-system",
-      "settings": {}
+      "settings": {
+        "headline": "Real Food can solve this crisis.",
+        "paragraph_1": "For decades we've been misled by guidance that prioritized highly processed food over the real, nutrient-dense food that sustained generations before us.",
+        "paragraph_2": "For the first time, official U.S. guidance calls on Americans to avoid highly processed food and return to eating real food — meat, fruit, vegetables, and dairy.",
+        "caption": "1992 Food Pyramid"
+      }
     },
     "custom_stats": {
       "type": "custom-stats",
       "settings": {
         "headline": "The State of Our Health",
         "subheadline": "America is sick. The data is clear.",
-        "stat1_number": 50,
+        "stat1_number": 71,
         "stat1_unit": "%",
         "stat1_label": "of Americans have prediabetes or diabetes",
-        "stat2_number": 29,
+        "stat2_number": 60,
         "stat2_unit": "%",
         "stat2_label": "of adults report having at least one chronic condition",
         "stat3_number": 90,
         "stat3_unit": "%",
-        "stat3_label": "of U.S. healthcare spending goes to treating chronic disease"
+        "stat3_label": "of U.S. healthcare spending goes to treating chronic disease",
+        "padding_top": 120,
+        "padding_bottom": 120,
+        "padding_side": 5
       }
     },
     "image_banner": {
