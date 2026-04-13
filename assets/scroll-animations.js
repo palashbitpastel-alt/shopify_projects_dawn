@@ -245,6 +245,22 @@ function initBrokenSystem() {
   // Scene 2: 30% – 65% (headline char reveal + fade out)
   // Scene 3: 60% – 95% (word highlight)
 
+  // === SCENE 1: Image scroll-in animation ===
+  var imageWrap = section.querySelector('.rf-broken__image-wrap');
+  if (imageWrap) {
+    gsap.to(imageWrap, {
+      opacity: 1,
+      y: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top bottom',
+        end: '15% top',
+        scrub: 1
+      }
+    });
+  }
+
   // === SCENE 1: Word highlight on scroll ===
   ScrollTrigger.create({
     trigger: section,
