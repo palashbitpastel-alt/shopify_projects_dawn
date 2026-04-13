@@ -1,0 +1,77 @@
+/* ============================================
+   SCROLL ANIMATIONS - Global Styles
+   ============================================ */
+
+/* --- Reset Dawn defaults that conflict with black/white scheme --- */
+:root {
+  --color-background: 0, 0, 0;
+  --color-foreground: 255, 255, 255;
+  --gradient-background: #000000;
+}
+
+body,
+.shopify-section,
+.shopify-section-group-header-group,
+.shopify-section-group-footer-group {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Override Dawn default card/section backgrounds --- */
+.color-background-1,
+.color-background-2,
+.gradient {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* --- Full-width custom sections --- */
+.shopify-section {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.page-width {
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* --- Headline elements --- */
+.rf-headline {
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+/* --- Navbar hide on scroll --- */
+.header-wrapper {
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  will-change: transform;
+}
+
+.header--hidden {
+  transform: translateY(-100%) !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* --- Global link / selection overrides --- */
+::selection {
+  background: #ffffff;
+  color: #000000;
+}
+
+a {
+  color: #ffffff;
+}

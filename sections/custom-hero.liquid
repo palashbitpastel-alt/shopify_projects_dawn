@@ -1,0 +1,160 @@
+<style>
+.rf-hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  background: #000000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.rf-hero__banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #cc0000;
+  padding: 10px;
+  text-align: center;
+  z-index: 2;
+  /* Initial state for animation */
+  opacity: 0;
+}
+
+.rf-hero__content {
+  position: relative;
+  z-index: 2;
+}
+
+.rf-hero__headline {
+  font-size: clamp(72px, 12vw, 140px);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 0.95;
+  text-align: center;
+  margin: 0;
+  /* Initial state for animation */
+  opacity: 0;
+  transform: translateY(20px) scale(0.97);
+}
+
+.rf-hero__subtext {
+  max-width: 520px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 32px auto 0;
+  text-align: center;
+  /* Initial state for animation */
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.rf-hero__bg-left,
+.rf-hero__bg-right {
+  position: absolute;
+  bottom: 0;
+  opacity: 0.15;
+  z-index: 1;
+  pointer-events: none;
+  max-width: 35%;
+  max-height: 60%;
+}
+
+.rf-hero__bg-left {
+  left: 0;
+}
+
+.rf-hero__bg-right {
+  right: 0;
+}
+
+.rf-hero__bg-left img,
+.rf-hero__bg-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom;
+}
+</style>
+
+<section class="rf-hero" data-section-id="{{ section.id }}">
+  <!-- Red government banner -->
+  <div class="rf-hero__banner">
+    {{ section.settings.banner_text }}
+  </div>
+
+  <!-- Content wrapper (vertically centered) -->
+  <div class="rf-hero__content">
+    <h1 class="rf-hero__headline rf-headline">
+      {{ section.settings.headline }}
+    </h1>
+    <p class="rf-hero__subtext">
+      {{ section.settings.subtext }}
+    </p>
+  </div>
+
+  <!-- Background food images -->
+  {%- if section.settings.left_image != blank -%}
+    <div class="rf-hero__bg-left">
+      {{ section.settings.left_image | image_url: width: 600 | image_tag: loading: 'eager' }}
+    </div>
+  {%- endif -%}
+  {%- if section.settings.right_image != blank -%}
+    <div class="rf-hero__bg-right">
+      {{ section.settings.right_image | image_url: width: 600 | image_tag: loading: 'eager' }}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Real Food Hero",
+  "tag": "section",
+  "class": "rf-hero-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "banner_text",
+      "label": "Banner Text",
+      "default": "AN OFFICIAL WEBSITE OF THE UNITED STATES GOVERNMENT"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Real Food Wins"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "America is the greatest country on Earth. And the sickest. Highly processed food has hollowed out our health, driving obesity, diabetes, heart disease, and early death. The truth is simple: real food restores health."
+    },
+    {
+      "type": "image_picker",
+      "id": "left_image",
+      "label": "Left Background Image (e.g. broccoli)"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_image",
+      "label": "Right Background Image (e.g. steak)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Real Food Hero"
+    }
+  ]
+}
+{% endschema %}
