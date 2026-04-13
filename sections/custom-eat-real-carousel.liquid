@@ -1,0 +1,114 @@
+<style>
+.rf-carousel {
+  background: #000;
+  padding: 100px 0;
+  overflow: hidden;
+  text-align: center;
+}
+
+.rf-carousel__title {
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 60px;
+  line-height: 1;
+}
+
+.rf-carousel__track {
+  display: flex;
+  gap: 40px;
+  animation: carouselScroll 20s linear infinite;
+  width: max-content;
+}
+
+.rf-carousel__item {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-width: 180px;
+}
+
+.rf-carousel__item img {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+.rf-carousel__item-name {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+}
+
+@keyframes carouselScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 749px) {
+  .rf-carousel { padding: 60px 0; }
+  .rf-carousel__item img { width: 100px; height: 100px; }
+  .rf-carousel__item { min-width: 130px; }
+}
+</style>
+
+<section class="rf-carousel" data-section-id="{{ section.id }}">
+  <h2 class="rf-carousel__title">{{ section.settings.title }}</h2>
+  <div class="rf-carousel__track">
+    {%- for block in section.blocks -%}
+      <div class="rf-carousel__item" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          {{ block.settings.image | image_url: width: 300 | image_tag: loading: 'lazy' }}
+        {%- endif -%}
+        <span class="rf-carousel__item-name">{{ block.settings.name }}</span>
+      </div>
+    {%- endfor -%}
+    {%- comment -%}Duplicate for seamless loop{%- endcomment -%}
+    {%- for block in section.blocks -%}
+      <div class="rf-carousel__item">
+        {%- if block.settings.image != blank -%}
+          {{ block.settings.image | image_url: width: 300 | image_tag: loading: 'lazy' }}
+        {%- endif -%}
+        <span class="rf-carousel__item-name">{{ block.settings.name }}</span>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Eat Real Carousel",
+  "tag": "section",
+  "class": "rf-carousel-section",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "Eat Real" }
+  ],
+  "blocks": [
+    {
+      "type": "food",
+      "name": "Food Item",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Food Name", "default": "Tomatoes" },
+        { "type": "image_picker", "id": "image", "label": "Food Image" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Eat Real Carousel",
+    "blocks": [
+      { "type": "food", "settings": { "name": "Tomatoes" } },
+      { "type": "food", "settings": { "name": "Yogurt" } },
+      { "type": "food", "settings": { "name": "Broccoli" } },
+      { "type": "food", "settings": { "name": "Salmon" } },
+      { "type": "food", "settings": { "name": "Eggs" } },
+      { "type": "food", "settings": { "name": "Blueberries" } },
+      { "type": "food", "settings": { "name": "Almonds" } },
+      { "type": "food", "settings": { "name": "Avocado" } }
+    ]
+  }]
+}
+{% endschema %}

@@ -1,0 +1,99 @@
+<style>
+.rf-resources {
+  background: #2d3a2e;
+  padding: 100px 5%;
+  color: #fff;
+}
+
+.rf-resources__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.rf-resources__label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 20px;
+}
+
+.rf-resources__headline {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.15;
+  margin: 0 0 24px;
+}
+
+.rf-resources__body {
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.7;
+  margin: 0 0 32px;
+}
+
+.rf-resources__link {
+  display: inline-block;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.rf-resources__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 749px) {
+  .rf-resources__grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .rf-resources { padding: 60px 5%; }
+}
+</style>
+
+<section class="rf-resources" data-section-id="{{ section.id }}">
+  <div class="rf-resources__grid">
+    <div class="rf-resources__text">
+      <p class="rf-resources__label">{{ section.settings.label }}</p>
+      <h2 class="rf-resources__headline">{{ section.settings.headline }}</h2>
+      <p class="rf-resources__body">{{ section.settings.body }}</p>
+      {%- if section.settings.link_text != blank -%}
+        <a href="{{ section.settings.link_url }}" class="rf-resources__link">{{ section.settings.link_text }}</a>
+      {%- endif -%}
+    </div>
+    <div class="rf-resources__image">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 800 | image_tag: loading: 'lazy' }}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Resources",
+  "tag": "section",
+  "class": "rf-resources-section",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Section Label", "default": "RESOURCES" },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Resources" },
+    { "type": "textarea", "id": "body", "label": "Body Text", "default": "Download the official Dietary Guidelines for Americans and learn more about the science behind real food." },
+    { "type": "text", "id": "link_text", "label": "Link Text", "default": "Read the full guidelines" },
+    { "type": "url", "id": "link_url", "label": "Link URL" },
+    { "type": "image_picker", "id": "image", "label": "Image (guide/book cover)" }
+  ],
+  "presets": [{ "name": "Resources" }]
+}
+{% endschema %}

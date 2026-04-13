@@ -1,0 +1,122 @@
+<style>
+.rf-faq {
+  background: #f5f0e8;
+  padding: 100px 5%;
+}
+
+.rf-faq__inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.rf-faq__headline {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 900;
+  color: #1a1a1a;
+  line-height: 1.15;
+  margin: 0 0 48px;
+}
+
+.rf-faq__item {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.rf-faq__item:last-child {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.rf-faq__question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.rf-faq__icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin-left: 16px;
+  transition: transform 0.3s ease;
+}
+
+.rf-faq__item.is-open .rf-faq__icon {
+  transform: rotate(45deg);
+}
+
+.rf-faq__answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+}
+
+.rf-faq__item.is-open .rf-faq__answer {
+  max-height: 600px;
+}
+
+.rf-faq__answer-inner {
+  padding: 0 0 24px;
+  font-size: 16px;
+  color: rgba(26, 26, 26, 0.7);
+  line-height: 1.7;
+}
+</style>
+
+<section class="rf-faq" data-section-id="{{ section.id }}">
+  <div class="rf-faq__inner">
+    <h2 class="rf-faq__headline">{{ section.settings.headline }}</h2>
+    {%- for block in section.blocks -%}
+      <div class="rf-faq__item" {{ block.shopify_attributes }}>
+        <button class="rf-faq__question" onclick="this.parentElement.classList.toggle('is-open')">
+          {{ block.settings.question }}
+          <svg class="rf-faq__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+        <div class="rf-faq__answer">
+          <div class="rf-faq__answer-inner">{{ block.settings.answer }}</div>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "section",
+  "class": "rf-faq-section",
+  "settings": [
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Frequently Asked Questions" }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "What counts as real food?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Real food includes minimally processed whole foods: meat, fish, eggs, dairy, vegetables, fruits, nuts, seeds, and whole grains." }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "FAQ",
+    "blocks": [
+      { "type": "question", "settings": { "question": "What counts as real food?", "answer": "Real food includes minimally processed whole foods: meat, fish, eggs, dairy, vegetables, fruits, nuts, seeds, and whole grains. These foods are close to their natural state and provide essential nutrients your body needs." } },
+      { "type": "question", "settings": { "question": "What is considered highly processed food?", "answer": "Highly processed foods are industrial formulations made mostly from substances derived from foods, with little if any intact food. They typically contain ingredients you wouldn't find in a home kitchen." } },
+      { "type": "question", "settings": { "question": "Is this an attack on the food industry?", "answer": "No. This is not an attack on industry or a legal definition. It reflects a public health reality that families live with every day. The goal is to help Americans make informed choices." } },
+      { "type": "question", "settings": { "question": "Where can I read the full guidelines?", "answer": "The full Dietary Guidelines for Americans are available at dietaryguidelines.gov. They provide detailed, evidence-based recommendations for healthy eating patterns." } }
+    ]
+  }]
+}
+{% endschema %}

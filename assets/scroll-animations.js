@@ -322,6 +322,55 @@ function initBrokenSystem() {
   }
 }
 
+function initEatRealFood() {
+  console.log('[ScrollAnim] initEatRealFood loaded');
+
+  // Animate each food category panel
+  var panels = document.querySelectorAll('.rf-erf__panel');
+  panels.forEach(function (panel) {
+    var text = panel.querySelector('.rf-erf__panel-text');
+    var imgs = panel.querySelectorAll('.rf-erf__panel-img');
+
+    if (text) {
+      gsap.to(text, {
+        opacity: 1, x: 0, duration: 0.9, ease: 'power3.out',
+        scrollTrigger: { trigger: panel, start: 'top 75%', once: true }
+      });
+    }
+
+    imgs.forEach(function (img, j) {
+      gsap.to(img, {
+        opacity: 1, y: 0, duration: 0.7, delay: j * 0.08, ease: 'power3.out',
+        scrollTrigger: { trigger: panel, start: 'top 75%', once: true }
+      });
+    });
+  });
+}
+
+function initClosingQuote() {
+  console.log('[ScrollAnim] initClosingQuote loaded');
+
+  var quoteEl = document.querySelector('[data-quote-words]');
+  if (!quoteEl) return;
+
+  // Split into word spans
+  var raw = quoteEl.textContent.trim();
+  quoteEl.innerHTML = raw.split(/\s+/).map(function (w) {
+    return '<span class="w">' + w + '</span>';
+  }).join(' ');
+  var words = quoteEl.querySelectorAll('.w');
+
+  ScrollTrigger.create({
+    trigger: quoteEl, start: 'top bottom-=20', end: 'center center', scrub: 1,
+    onUpdate: function (self) {
+      var n = Math.ceil(self.progress * words.length) - 1;
+      words.forEach(function (w, i) {
+        w.classList.toggle('lit', self.progress > 0 && i <= n);
+      });
+    }
+  });
+}
+
 function initWinningSection() {
   console.log('[ScrollAnim] initWinningSection loaded');
 }
@@ -336,6 +385,8 @@ document.addEventListener('DOMContentLoaded', function () {
   initStatsCounters();
   initTextReveal();
   initBrokenSystem();
+  initEatRealFood();
+  initClosingQuote();
   initWinningSection();
 
   console.log('[ScrollAnim] All animations initialized.');

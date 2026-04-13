@@ -1,0 +1,62 @@
+<style>
+.rf-quote {
+  background: #f5f0e8;
+  padding: 120px 5%;
+  display: flex;
+  justify-content: center;
+}
+
+.rf-quote__inner {
+  max-width: 800px;
+  text-align: center;
+}
+
+.rf-quote__text {
+  font-size: clamp(24px, 3.5vw, 38px);
+  font-weight: 400;
+  color: #1a1a1a;
+  line-height: 1.5;
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.rf-quote__text strong {
+  font-weight: 900;
+}
+
+.rf-quote__text .w {
+  color: rgba(26, 26, 26, 0.2);
+  transition: color 0.3s ease;
+}
+
+.rf-quote__text .w.lit {
+  color: #1a1a1a;
+}
+
+@media (max-width: 749px) {
+  .rf-quote { padding: 80px 5%; }
+}
+</style>
+
+<section class="rf-quote" data-section-id="{{ section.id }}">
+  <div class="rf-quote__inner">
+    <p class="rf-quote__text" data-quote-words>{{ section.settings.quote }}</p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Closing Quote",
+  "tag": "section",
+  "class": "rf-quote-section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote Text",
+      "default": "The government's message is simple: what we eat shapes how long and how well we live — and choosing real food is one of the most powerful health decisions a person, a family, and a nation can make."
+    }
+  ],
+  "presets": [{ "name": "Closing Quote" }]
+}
+{% endschema %}

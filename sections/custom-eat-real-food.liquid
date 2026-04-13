@@ -1,0 +1,191 @@
+<style>
+/* === Eat Real Food hero === */
+.rf-erf {
+  background: #f5f0e8;
+  width: 100%;
+}
+
+.rf-erf__hero {
+  padding: 100px 5% 60px;
+  text-align: center;
+}
+
+.rf-erf__title {
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 900;
+  color: #1a1a1a;
+  line-height: 1;
+  margin: 0;
+}
+
+.rf-erf__collage {
+  max-width: 600px;
+  margin: 40px auto 0;
+  position: relative;
+}
+
+.rf-erf__collage img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* === Food Category Panels === */
+.rf-erf__panels {
+  position: relative;
+}
+
+.rf-erf__panel {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 80px 5%;
+  gap: 60px;
+  background: #f5f0e8;
+}
+
+.rf-erf__panel:nth-child(even) {
+  direction: rtl;
+}
+
+.rf-erf__panel:nth-child(even) > * {
+  direction: ltr;
+}
+
+.rf-erf__panel-text {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.rf-erf__panel-label {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 900;
+  color: #1a1a1a;
+  line-height: 1.15;
+  margin: 0 0 20px;
+}
+
+.rf-erf__panel-body {
+  font-size: 17px;
+  color: rgba(26, 26, 26, 0.7);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 450px;
+}
+
+.rf-erf__panel-images {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.rf-erf__panel-img {
+  opacity: 0;
+  transform: translate(0, 20px);
+  max-width: 45%;
+  flex-shrink: 0;
+}
+
+.rf-erf__panel-img img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+}
+
+@media (max-width: 749px) {
+  .rf-erf__panel {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 60px 5%;
+    gap: 40px;
+  }
+
+  .rf-erf__panel:nth-child(even) {
+    direction: ltr;
+  }
+
+  .rf-erf__panel-images {
+    min-height: 250px;
+  }
+
+  .rf-erf__panel-img {
+    max-width: 40%;
+  }
+}
+</style>
+
+<section class="rf-erf" data-section-id="{{ section.id }}">
+  <div class="rf-erf__hero">
+    <h2 class="rf-erf__title">{{ section.settings.title }}</h2>
+    {%- if section.settings.collage_image != blank -%}
+      <div class="rf-erf__collage">
+        {{ section.settings.collage_image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="rf-erf__panels">
+    {%- for block in section.blocks -%}
+      <div class="rf-erf__panel" {{ block.shopify_attributes }}>
+        <div class="rf-erf__panel-text">
+          <h3 class="rf-erf__panel-label">{{ block.settings.label }}</h3>
+          <p class="rf-erf__panel-body">{{ block.settings.body }}</p>
+        </div>
+        <div class="rf-erf__panel-images">
+          {%- for i in (1..8) -%}
+            {%- assign img_key = 'image_' | append: i -%}
+            {%- if block.settings[img_key] != blank -%}
+              <div class="rf-erf__panel-img">
+                {{ block.settings[img_key] | image_url: width: 400 | image_tag: loading: 'lazy' }}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Eat Real Food",
+  "tag": "section",
+  "class": "rf-erf-section",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "Eat Real Food" },
+    { "type": "image_picker", "id": "collage_image", "label": "Food Collage Image (hero)" }
+  ],
+  "blocks": [
+    {
+      "type": "panel",
+      "name": "Food Category",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Category Label", "default": "Protein, Dairy, & Healthy Fats" },
+        { "type": "textarea", "id": "body", "label": "Description", "default": "Meat, eggs, dairy, and fish are real food — nutrient-dense and essential for health." },
+        { "type": "image_picker", "id": "image_1", "label": "Food Image 1" },
+        { "type": "image_picker", "id": "image_2", "label": "Food Image 2" },
+        { "type": "image_picker", "id": "image_3", "label": "Food Image 3" },
+        { "type": "image_picker", "id": "image_4", "label": "Food Image 4" },
+        { "type": "image_picker", "id": "image_5", "label": "Food Image 5" },
+        { "type": "image_picker", "id": "image_6", "label": "Food Image 6" },
+        { "type": "image_picker", "id": "image_7", "label": "Food Image 7" },
+        { "type": "image_picker", "id": "image_8", "label": "Food Image 8" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Eat Real Food",
+    "blocks": [
+      { "type": "panel", "settings": { "label": "Protein, Dairy, & Healthy Fats", "body": "We are ending the war on protein and healthy fats. Meat, eggs, dairy, and fish are real food — nutrient-dense and essential." } },
+      { "type": "panel", "settings": { "label": "Vegetables & Fruits", "body": "Vegetables and fruits are the foundation of a healthy plate. Choose whole, unprocessed produce — the closer to the farm, the better." } },
+      { "type": "panel", "settings": { "label": "Whole Grains", "body": "Whole grains — not refined flour and sugar — provide sustained energy. Choose real bread, oats, and rice over processed cereals." } }
+    ]
+  }]
+}
+{% endschema %}

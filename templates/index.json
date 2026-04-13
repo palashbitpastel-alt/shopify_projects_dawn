@@ -86,6 +86,85 @@
         "padding_side": 5
       }
     },
+    "custom_eat_real_food": {
+      "type": "custom-eat-real-food",
+      "blocks": {
+        "panel_1": {
+          "type": "panel",
+          "settings": {
+            "label": "Protein, Dairy, & Healthy Fats",
+            "body": "We are ending the war on protein and healthy fats. Meat, eggs, dairy, and fish are real food — nutrient-dense and essential."
+          }
+        },
+        "panel_2": {
+          "type": "panel",
+          "settings": {
+            "label": "Vegetables & Fruits",
+            "body": "Vegetables and fruits are the foundation of a healthy plate. Choose whole, unprocessed produce — the closer to the farm, the better."
+          }
+        },
+        "panel_3": {
+          "type": "panel",
+          "settings": {
+            "label": "Whole Grains",
+            "body": "Whole grains — not refined flour and sugar — provide sustained energy. Choose real bread, oats, and rice over processed cereals."
+          }
+        }
+      },
+      "block_order": ["panel_1", "panel_2", "panel_3"],
+      "settings": {
+        "title": "Eat Real Food"
+      }
+    },
+    "custom_resources": {
+      "type": "custom-resources",
+      "settings": {
+        "headline": "Resources",
+        "body": "Download the official Dietary Guidelines for Americans and learn more about the science behind real food."
+      }
+    },
+    "custom_full_story": {
+      "type": "custom-full-story",
+      "settings": {
+        "headline": "Use this guide to learn more about real food",
+        "button_text": "Read the full guidelines"
+      }
+    },
+    "custom_faq": {
+      "type": "custom-faq",
+      "blocks": {
+        "q1": { "type": "question", "settings": { "question": "What counts as real food?", "answer": "Real food includes minimally processed whole foods: meat, fish, eggs, dairy, vegetables, fruits, nuts, seeds, and whole grains." } },
+        "q2": { "type": "question", "settings": { "question": "What is considered highly processed food?", "answer": "Highly processed foods are industrial formulations made mostly from substances derived from foods, with little if any intact food." } },
+        "q3": { "type": "question", "settings": { "question": "Is this an attack on the food industry?", "answer": "No. This reflects a public health reality that families live with every day. The goal is to help Americans make informed choices." } }
+      },
+      "block_order": ["q1", "q2", "q3"],
+      "settings": {
+        "headline": "Frequently Asked Questions"
+      }
+    },
+    "custom_closing_quote": {
+      "type": "custom-closing-quote",
+      "settings": {
+        "quote": "The government's message is simple: what we eat shapes how long and how well we live — and choosing real food is one of the most powerful health decisions a person, a family, and a nation can make."
+      }
+    },
+    "custom_eat_real_carousel": {
+      "type": "custom-eat-real-carousel",
+      "blocks": {
+        "f1": { "type": "food", "settings": { "name": "Tomatoes" } },
+        "f2": { "type": "food", "settings": { "name": "Yogurt" } },
+        "f3": { "type": "food", "settings": { "name": "Broccoli" } },
+        "f4": { "type": "food", "settings": { "name": "Salmon" } },
+        "f5": { "type": "food", "settings": { "name": "Eggs" } },
+        "f6": { "type": "food", "settings": { "name": "Blueberries" } },
+        "f7": { "type": "food", "settings": { "name": "Almonds" } },
+        "f8": { "type": "food", "settings": { "name": "Avocado" } }
+      },
+      "block_order": ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8"],
+      "settings": {
+        "title": "Eat Real"
+      }
+    },
     "image_banner": {
       "type": "image-banner",
       "blocks": {
@@ -212,6 +291,12 @@
     "custom_video_expand",
     "custom_broken_system",
     "custom_stats",
+    "custom_eat_real_food",
+    "custom_resources",
+    "custom_full_story",
+    "custom_faq",
+    "custom_closing_quote",
+    "custom_eat_real_carousel",
     "image_banner",
     "featured_collection",
     "slideshow_n79Hbg"
