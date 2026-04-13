@@ -246,6 +246,7 @@ function initBrokenSystem() {
   // Scene 3: 60% – 95% (word highlight)
 
   // === SCENE 1: Image scroll-in animation ===
+  // Starts when section top is at 25% from bottom of viewport, ends when pinned (top top)
   var imageWrap = section.querySelector('.rf-broken__image-wrap');
   if (imageWrap) {
     gsap.to(imageWrap, {
@@ -254,8 +255,8 @@ function initBrokenSystem() {
       ease: 'none',
       scrollTrigger: {
         trigger: section,
-        start: 'top bottom',
-        end: '15% top',
+        start: 'top 75%',
+        end: 'top top',
         scrub: 1
       }
     });
