@@ -38,10 +38,18 @@
     "custom_stats": {
       "type": "custom-stats",
       "blocks": {
-        "stat_peQMMW": {
+        "stat_mCBTqW": {
           "type": "stat",
           "settings": {
             "number": 50,
+            "unit": "%",
+            "label": "of Americans have prediabetes or diabetes"
+          }
+        },
+        "stat_peQMMW": {
+          "type": "stat",
+          "settings": {
+            "number": 100,
             "unit": "%",
             "label": "of Americans have prediabetes or diabetes"
           }
@@ -64,6 +72,7 @@
         }
       },
       "block_order": [
+        "stat_mCBTqW",
         "stat_peQMMW",
         "stat_Fycczw",
         "stat_UgMxTi"
