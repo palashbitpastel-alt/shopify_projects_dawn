@@ -112,7 +112,7 @@ function initStatsCounters() {
       ease: 'power3.out',
       scrollTrigger: {
         trigger: grid,
-        start: 'top 70%',
+        start: 'bottom bottom-=20',
         once: true
       },
       onUpdate: function () {
