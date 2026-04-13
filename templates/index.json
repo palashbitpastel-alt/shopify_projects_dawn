@@ -29,11 +29,11 @@
     "custom_broken_system": {
       "type": "custom-broken-system",
       "settings": {
-        "headline": "Real Food can solve this crisis.",
+        "image": "shopify://shop_images/TCCEcomm6thMarch9377.webp",
+        "caption": "1992 Food Pyramid",
         "paragraph_1": "For decades we've been misled by guidance that prioritized highly processed food over the real, nutrient-dense food that sustained generations before us.",
-        "paragraph_2": "For the first time, official U.S. guidance calls on Americans to avoid highly processed food and return to eating real food — meat, fruit, vegetables, and dairy.",
-        "image": "shopify://shop_images/putting-on-your-shoes_925x_62d33da4-e3d1-4a29-a948-84722b10ad23.jpg",
-        "caption": "1992 Food Pyramid"
+        "headline": "Real Food can solve this crisis.",
+        "paragraph_2": "For the first time, official U.S. guidance calls on Americans to avoid highly processed food and return to eating real food — meat, fruit, vegetables, and dairy."
       }
     },
     "custom_stats": {
@@ -111,7 +111,11 @@
           }
         }
       },
-      "block_order": ["panel_1", "panel_2", "panel_3"],
+      "block_order": [
+        "panel_1",
+        "panel_2",
+        "panel_3"
+      ],
       "settings": {
         "title": "Eat Real Food"
       }
@@ -119,25 +123,52 @@
     "custom_resources": {
       "type": "custom-resources",
       "settings": {
+        "label": "RESOURCES",
         "headline": "Resources",
-        "body": "Download the official Dietary Guidelines for Americans and learn more about the science behind real food."
+        "body": "Download the official Dietary Guidelines for Americans and learn more about the science behind real food.",
+        "link_text": "Read the full guidelines",
+        "link_url": ""
       }
     },
     "custom_full_story": {
       "type": "custom-full-story",
       "settings": {
         "headline": "Use this guide to learn more about real food",
-        "button_text": "Read the full guidelines"
+        "subtext": "Read the Dietary Guidelines for Americans",
+        "button_text": "Read the full guidelines",
+        "button_url": ""
       }
     },
     "custom_faq": {
       "type": "custom-faq",
       "blocks": {
-        "q1": { "type": "question", "settings": { "question": "What counts as real food?", "answer": "Real food includes minimally processed whole foods: meat, fish, eggs, dairy, vegetables, fruits, nuts, seeds, and whole grains." } },
-        "q2": { "type": "question", "settings": { "question": "What is considered highly processed food?", "answer": "Highly processed foods are industrial formulations made mostly from substances derived from foods, with little if any intact food." } },
-        "q3": { "type": "question", "settings": { "question": "Is this an attack on the food industry?", "answer": "No. This reflects a public health reality that families live with every day. The goal is to help Americans make informed choices." } }
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "What counts as real food?",
+            "answer": "Real food includes minimally processed whole foods: meat, fish, eggs, dairy, vegetables, fruits, nuts, seeds, and whole grains."
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "What is considered highly processed food?",
+            "answer": "Highly processed foods are industrial formulations made mostly from substances derived from foods, with little if any intact food."
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "Is this an attack on the food industry?",
+            "answer": "No. This reflects a public health reality that families live with every day. The goal is to help Americans make informed choices."
+          }
+        }
       },
-      "block_order": ["q1", "q2", "q3"],
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ],
       "settings": {
         "headline": "Frequently Asked Questions"
       }
@@ -151,16 +182,65 @@
     "custom_eat_real_carousel": {
       "type": "custom-eat-real-carousel",
       "blocks": {
-        "f1": { "type": "food", "settings": { "name": "Tomatoes" } },
-        "f2": { "type": "food", "settings": { "name": "Yogurt" } },
-        "f3": { "type": "food", "settings": { "name": "Broccoli" } },
-        "f4": { "type": "food", "settings": { "name": "Salmon" } },
-        "f5": { "type": "food", "settings": { "name": "Eggs" } },
-        "f6": { "type": "food", "settings": { "name": "Blueberries" } },
-        "f7": { "type": "food", "settings": { "name": "Almonds" } },
-        "f8": { "type": "food", "settings": { "name": "Avocado" } }
+        "f1": {
+          "type": "food",
+          "settings": {
+            "name": "Tomatoes"
+          }
+        },
+        "f2": {
+          "type": "food",
+          "settings": {
+            "name": "Yogurt"
+          }
+        },
+        "f3": {
+          "type": "food",
+          "settings": {
+            "name": "Broccoli"
+          }
+        },
+        "f4": {
+          "type": "food",
+          "settings": {
+            "name": "Salmon"
+          }
+        },
+        "f5": {
+          "type": "food",
+          "settings": {
+            "name": "Eggs"
+          }
+        },
+        "f6": {
+          "type": "food",
+          "settings": {
+            "name": "Blueberries"
+          }
+        },
+        "f7": {
+          "type": "food",
+          "settings": {
+            "name": "Almonds"
+          }
+        },
+        "f8": {
+          "type": "food",
+          "settings": {
+            "name": "Avocado"
+          }
+        }
       },
-      "block_order": ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8"],
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4",
+        "f5",
+        "f6",
+        "f7",
+        "f8"
+      ],
       "settings": {
         "title": "Eat Real"
       }
