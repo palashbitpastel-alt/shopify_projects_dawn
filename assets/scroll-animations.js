@@ -93,7 +93,7 @@ function initStatsCounters() {
     }
   });
 
-  // Count-up each number + bar fill with stagger
+  // Count-up each number + bar height fill with stagger
   valueEls.forEach(function (el, i) {
     var target = parseInt(el.getAttribute('data-target'), 10) || 0;
     var obj = { val: 0 };
@@ -104,9 +104,9 @@ function initStatsCounters() {
 
     gsap.to(obj, {
       val: target,
-      duration: 2,
-      delay: i * 0.2,
-      ease: 'power2.out',
+      duration: 2.2,
+      delay: i * 0.25,
+      ease: 'power3.out',
       scrollTrigger: {
         trigger: grid,
         start: 'top 70%',
@@ -115,7 +115,7 @@ function initStatsCounters() {
       onUpdate: function () {
         el.textContent = Math.round(obj.val);
         if (barFill) {
-          barFill.style.width = Math.round(obj.val) + '%';
+          barFill.style.height = Math.round(obj.val) + '%';
         }
       }
     });
