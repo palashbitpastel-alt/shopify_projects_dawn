@@ -1,0 +1,86 @@
+<section
+  class="video-expand-section"
+  data-section-id="{{ section.id }}"
+  style="--start-w: {{ section.settings.start_width }}vw; --start-r: {{ section.settings.start_radius }}px"
+>
+  <div class="video-expand__sticky">
+    <div class="video-expand__wrapper">
+      {%- if section.settings.video_mp4 != blank -%}
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          src="{{ section.settings.video_mp4 }}"
+        ></video>
+      {%- elsif section.settings.video_url != blank -%}
+        {%- if section.settings.video_url.type == 'youtube' -%}
+          <iframe
+            src="https://www.youtube.com/embed/{{ section.settings.video_url.id }}?autoplay=1&mute=1&loop=1&playlist={{ section.settings.video_url.id }}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+          ></iframe>
+        {%- elsif section.settings.video_url.type == 'vimeo' -%}
+          <iframe
+            src="https://player.vimeo.com/video/{{ section.settings.video_url.id }}?autoplay=1&muted=1&loop=1&background=1&playsinline=1"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+          ></iframe>
+        {%- endif -%}
+      {%- else -%}
+        <div class="video-expand__placeholder">
+          <p>Add a video URL in the section settings</p>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Video Expand",
+  "tag": "section",
+  "class": "video-expand-section-wrapper",
+  "settings": [
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "Video URL",
+      "accept": ["youtube", "vimeo"],
+      "info": "YouTube or Vimeo URL. For best autoplay results, use a direct MP4 instead."
+    },
+    {
+      "type": "text",
+      "id": "video_mp4",
+      "label": "Direct MP4 file URL",
+      "info": "Paste a direct .mp4 link for seamless autoplay + mute + loop"
+    },
+    {
+      "type": "range",
+      "id": "start_width",
+      "min": 30,
+      "max": 80,
+      "step": 5,
+      "unit": "vw",
+      "label": "Starting video width",
+      "default": 55
+    },
+    {
+      "type": "range",
+      "id": "start_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "label": "Starting border radius (px)",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Expand"
+    }
+  ]
+}
+{% endschema %}

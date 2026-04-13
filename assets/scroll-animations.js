@@ -94,6 +94,30 @@ function initStatsCounters() {
   });
 }
 
+function initVideoExpand() {
+  console.log('[ScrollAnim] initVideoExpand loaded');
+
+  var wrapper = document.querySelector('.video-expand__wrapper');
+  if (!wrapper) return;
+
+  // Skip animation on mobile — show static layout instead
+  if (window.innerWidth < 768) return;
+
+  gsap.to(wrapper, {
+    width: '100vw',
+    borderRadius: '0px',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.video-expand-section',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 1,
+      pin: '.video-expand__sticky',
+      pinSpacing: false
+    }
+  });
+}
+
 function initTextReveal() {
   console.log('[ScrollAnim] initTextReveal loaded');
 }
@@ -112,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('[ScrollAnim] Initializing all scroll animations...');
 
   initHeroAnimation();
+  initVideoExpand();
   initStatsCounters();
   initTextReveal();
   initPyramidSection();
