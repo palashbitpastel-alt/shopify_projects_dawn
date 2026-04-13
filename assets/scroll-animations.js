@@ -53,6 +53,45 @@ function initHeroAnimation() {
 
 function initStatsCounters() {
   console.log('[ScrollAnim] initStatsCounters loaded');
+
+  const grid = document.querySelector('.rf-stats__grid');
+  if (!grid) return;
+
+  const valueEls = grid.querySelectorAll('.rf-stats__value');
+
+  // Slide-up the entire grid
+  gsap.to(grid, {
+    opacity: 1,
+    y: 0,
+    duration: 0.7,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: grid,
+      start: 'top 70%',
+      once: true
+    }
+  });
+
+  // Count-up each number with stagger
+  valueEls.forEach(function (el, i) {
+    var target = parseInt(el.getAttribute('data-target'), 10) || 0;
+    var obj = { val: 0 };
+
+    gsap.to(obj, {
+      val: target,
+      duration: 2,
+      delay: i * 0.2,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: grid,
+        start: 'top 70%',
+        once: true
+      },
+      onUpdate: function () {
+        el.textContent = Math.round(obj.val);
+      }
+    });
+  });
 }
 
 function initTextReveal() {

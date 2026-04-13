@@ -1,0 +1,202 @@
+<style>
+.rf-stats {
+  background: #000000;
+  width: 100%;
+  padding: 120px 5%;
+  overflow: hidden;
+}
+
+.rf-stats__headline {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 900;
+  color: #ffffff;
+  text-align: center;
+  margin: 0 0 16px;
+  line-height: 1.1;
+}
+
+.rf-stats__subheadline {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  margin: 0 0 80px;
+}
+
+.rf-stats__divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin-bottom: 60px;
+}
+
+.rf-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  /* Initial state for animation */
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.rf-stats__item {
+  text-align: center;
+}
+
+.rf-stats__number {
+  font-size: clamp(72px, 10vw, 120px);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+  margin: 0;
+}
+
+.rf-stats__unit {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.rf-stats__label {
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.5;
+  max-width: 280px;
+  margin: 12px auto 0;
+}
+
+@media (max-width: 749px) {
+  .rf-stats__grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .rf-stats {
+    padding: 80px 5%;
+  }
+
+  .rf-stats__subheadline {
+    margin-bottom: 48px;
+  }
+}
+</style>
+
+<section class="rf-stats" data-section-id="{{ section.id }}">
+  <h2 class="rf-stats__headline rf-headline">{{ section.settings.headline }}</h2>
+  <p class="rf-stats__subheadline">{{ section.settings.subheadline }}</p>
+
+  <div class="rf-stats__divider"></div>
+
+  <div class="rf-stats__grid">
+    <div class="rf-stats__item">
+      <p class="rf-stats__number">
+        <span class="rf-stats__value" data-target="{{ section.settings.stat1_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat1_unit }}</span>
+      </p>
+      <p class="rf-stats__label">{{ section.settings.stat1_label }}</p>
+    </div>
+
+    <div class="rf-stats__item">
+      <p class="rf-stats__number">
+        <span class="rf-stats__value" data-target="{{ section.settings.stat2_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat2_unit }}</span>
+      </p>
+      <p class="rf-stats__label">{{ section.settings.stat2_label }}</p>
+    </div>
+
+    <div class="rf-stats__item">
+      <p class="rf-stats__number">
+        <span class="rf-stats__value" data-target="{{ section.settings.stat3_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat3_unit }}</span>
+      </p>
+      <p class="rf-stats__label">{{ section.settings.stat3_label }}</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Stats Counter",
+  "tag": "section",
+  "class": "rf-stats-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "The State of Our Health"
+    },
+    {
+      "type": "text",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "America is sick. The data is clear."
+    },
+    {
+      "type": "range",
+      "id": "stat1_number",
+      "label": "Stat 1 Number",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "type": "text",
+      "id": "stat1_unit",
+      "label": "Stat 1 Unit",
+      "default": "%"
+    },
+    {
+      "type": "text",
+      "id": "stat1_label",
+      "label": "Stat 1 Label",
+      "default": "of Americans have prediabetes or diabetes"
+    },
+    {
+      "type": "range",
+      "id": "stat2_number",
+      "label": "Stat 2 Number",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 75
+    },
+    {
+      "type": "text",
+      "id": "stat2_unit",
+      "label": "Stat 2 Unit",
+      "default": "%"
+    },
+    {
+      "type": "text",
+      "id": "stat2_label",
+      "label": "Stat 2 Label",
+      "default": "of adults report having at least one chronic condition"
+    },
+    {
+      "type": "range",
+      "id": "stat3_number",
+      "label": "Stat 3 Number",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 90
+    },
+    {
+      "type": "text",
+      "id": "stat3_unit",
+      "label": "Stat 3 Unit",
+      "default": "%"
+    },
+    {
+      "type": "text",
+      "id": "stat3_label",
+      "label": "Stat 3 Label",
+      "default": "of U.S. healthcare spending goes to treating chronic disease"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stats Counter"
+    }
+  ]
+}
+{% endschema %}
