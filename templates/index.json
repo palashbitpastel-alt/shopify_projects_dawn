@@ -37,18 +37,36 @@
     },
     "custom_stats": {
       "type": "custom-stats",
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "number": 71,
+            "unit": "%",
+            "label": "of Americans have prediabetes or diabetes"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "number": 60,
+            "unit": "%",
+            "label": "of adults report having at least one chronic condition"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "number": 90,
+            "unit": "%",
+            "label": "of U.S. healthcare spending goes to treating chronic disease"
+          }
+        }
+      },
+      "block_order": ["stat_1", "stat_2", "stat_3"],
       "settings": {
         "headline": "The State of Our Health",
         "subheadline": "America is sick. The data is clear.",
-        "stat1_number": 71,
-        "stat1_unit": "%",
-        "stat1_label": "of Americans have prediabetes or diabetes",
-        "stat2_number": 60,
-        "stat2_unit": "%",
-        "stat2_label": "of adults report having at least one chronic condition",
-        "stat3_number": 90,
-        "stat3_unit": "%",
-        "stat3_label": "of U.S. healthcare spending goes to treating chronic disease",
         "padding_top": 120,
         "padding_bottom": 120,
         "padding_side": 5

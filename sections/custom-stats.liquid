@@ -35,10 +35,12 @@
   gap: 50px;
   max-width: 1200px;
   margin: 0 auto;
+  flex-wrap: wrap;
 }
 
 .rf-stats__item {
   flex: 1;
+  min-width: 120px;
   max-width: 300px;
   text-align: center;
 }
@@ -104,29 +106,15 @@
   <div class="rf-stats__divider"></div>
 
   <div class="rf-stats__grid">
-    <div class="rf-stats__item">
-      <p class="rf-stats__number">
-        <span class="rf-stats__value" data-target="{{ section.settings.stat1_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat1_unit }}</span>
-      </p>
-      <div class="rf-stats__bar" data-bar-target="{{ section.settings.stat1_number }}">&nbsp;</div>
-      <p class="rf-stats__label">{{ section.settings.stat1_label }}</p>
-    </div>
-
-    <div class="rf-stats__item">
-      <p class="rf-stats__number">
-        <span class="rf-stats__value" data-target="{{ section.settings.stat2_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat2_unit }}</span>
-      </p>
-      <div class="rf-stats__bar" data-bar-target="{{ section.settings.stat2_number }}">&nbsp;</div>
-      <p class="rf-stats__label">{{ section.settings.stat2_label }}</p>
-    </div>
-
-    <div class="rf-stats__item">
-      <p class="rf-stats__number">
-        <span class="rf-stats__value" data-target="{{ section.settings.stat3_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat3_unit }}</span>
-      </p>
-      <div class="rf-stats__bar" data-bar-target="{{ section.settings.stat3_number }}">&nbsp;</div>
-      <p class="rf-stats__label">{{ section.settings.stat3_label }}</p>
-    </div>
+    {%- for block in section.blocks -%}
+      <div class="rf-stats__item" {{ block.shopify_attributes }}>
+        <p class="rf-stats__number">
+          <span class="rf-stats__value" data-target="{{ block.settings.number }}">0</span><span class="rf-stats__unit">{{ block.settings.unit }}</span>
+        </p>
+        <div class="rf-stats__bar" data-bar-target="{{ block.settings.number }}">&nbsp;</div>
+        <p class="rf-stats__label">{{ block.settings.label }}</p>
+      </div>
+    {%- endfor -%}
   </div>
 </section>
 
@@ -147,69 +135,6 @@
       "id": "subheadline",
       "label": "Subheadline",
       "default": "America is sick. The data is clear."
-    },
-    {
-      "type": "range",
-      "id": "stat1_number",
-      "label": "Stat 1 Number",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "default": 50
-    },
-    {
-      "type": "text",
-      "id": "stat1_unit",
-      "label": "Stat 1 Unit",
-      "default": "%"
-    },
-    {
-      "type": "text",
-      "id": "stat1_label",
-      "label": "Stat 1 Label",
-      "default": "of Americans have prediabetes or diabetes"
-    },
-    {
-      "type": "range",
-      "id": "stat2_number",
-      "label": "Stat 2 Number",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "default": 75
-    },
-    {
-      "type": "text",
-      "id": "stat2_unit",
-      "label": "Stat 2 Unit",
-      "default": "%"
-    },
-    {
-      "type": "text",
-      "id": "stat2_label",
-      "label": "Stat 2 Label",
-      "default": "of adults report having at least one chronic condition"
-    },
-    {
-      "type": "range",
-      "id": "stat3_number",
-      "label": "Stat 3 Number",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "default": 90
-    },
-    {
-      "type": "text",
-      "id": "stat3_unit",
-      "label": "Stat 3 Unit",
-      "default": "%"
-    },
-    {
-      "type": "text",
-      "id": "stat3_label",
-      "label": "Stat 3 Label",
-      "default": "of U.S. healthcare spending goes to treating chronic disease"
     },
     {
       "type": "range",
@@ -242,9 +167,64 @@
       "default": 5
     }
   ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "range",
+          "id": "number",
+          "label": "Number",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50
+        },
+        {
+          "type": "text",
+          "id": "unit",
+          "label": "Unit",
+          "default": "%"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "of Americans have prediabetes or diabetes"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Stats Counter"
+      "name": "Stats Counter",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "number": 50,
+            "unit": "%",
+            "label": "of Americans have prediabetes or diabetes"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": 75,
+            "unit": "%",
+            "label": "of adults report having at least one chronic condition"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": 90,
+            "unit": "%",
+            "label": "of U.S. healthcare spending goes to treating chronic disease"
+          }
+        }
+      ]
     }
   ]
 }
