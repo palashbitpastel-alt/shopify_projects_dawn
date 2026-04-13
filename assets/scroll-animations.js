@@ -103,17 +103,23 @@ function initVideoExpand() {
   // Skip animation on mobile — show static layout instead
   if (window.innerWidth < 768) return;
 
-  gsap.to(wrapper, {
-    width: '100vw',
-    borderRadius: '0px',
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '.video-expand-section',
-      start: 'top bottom-=20',
-      end: 'top top',
-      scrub: 1
+  var section = document.querySelector('.video-expand-section');
+  var startWidth = getComputedStyle(section).getPropertyValue('--start-w').trim() || '80vw';
+
+  gsap.fromTo(wrapper,
+    { width: startWidth, borderRadius: 'var(--start-r, 16px)' },
+    {
+      width: '100vw',
+      borderRadius: '0px',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.video-expand-section',
+        start: 'top bottom-=100',
+        end: 'top top',
+        scrub: 1
+      }
     }
-  });
+  );
 }
 
 function initTextReveal() {
