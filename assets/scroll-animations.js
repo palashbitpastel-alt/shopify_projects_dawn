@@ -96,19 +96,6 @@ function initStatsCounters() {
     bar.style.backgroundColor = 'rgba(204, 0, 0, ' + opacity + ')';
   });
 
-  // Slide-up the entire grid
-  gsap.to(grid, {
-    opacity: 1,
-    y: 0,
-    duration: 0.7,
-    ease: 'power2.out',
-    scrollTrigger: {
-      trigger: grid,
-      start: 'top 70%',
-      once: true
-    }
-  });
-
   // Count-up each number + bar height fill with stagger
   valueEls.forEach(function (el, i) {
     var target = parseInt(el.getAttribute('data-target'), 10) || 0;
