@@ -2,6 +2,10 @@
    SCROLL ANIMATIONS - Main JS Controller
    ============================================ */
 
+// Register GSAP plugins FIRST
+gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.defaults({ markers: false });
+
 // Initialize Lenis smooth scroll
 var lenis = new Lenis({
   duration: 1.2,
@@ -10,24 +14,12 @@ var lenis = new Lenis({
   touchMultiplier: 1.5
 });
 
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
-
-// Connect Lenis to GSAP ScrollTrigger
+// Connect Lenis to GSAP ScrollTrigger (must be after plugin registration)
 lenis.on('scroll', ScrollTrigger.update);
 gsap.ticker.add(function (time) {
   lenis.raf(time * 1000);
 });
 gsap.ticker.lagSmoothing(0);
-
-// Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger);
-
-// Set ScrollTrigger defaults
-ScrollTrigger.defaults({ markers: false });
 
 /* --- Animation Init Functions --- */
 
@@ -111,8 +103,8 @@ function initStatsCounters() {
       delay: i * 0.25,
       ease: 'power3.out',
       scrollTrigger: {
-        trigger: grid,
-        start: 'bottom bottom-=20',
+        trigger: '.rf-stats',
+        start: 'top 90%',
         once: true
       },
       onUpdate: function () {
