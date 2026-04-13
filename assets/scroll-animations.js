@@ -231,6 +231,205 @@ function initWinningSection() {
   console.log('[ScrollAnim] initWinningSection loaded');
 }
 
+/* --- 3D Effects --- */
+
+function init3DEffects() {
+  console.log('[ScrollAnim] init3DEffects loaded');
+
+  // === 1. Hero 3D Parallax Tilt on Mouse Move ===
+  var hero = document.querySelector('.rf-hero');
+  var heroContent = document.querySelector('.rf-hero__content');
+  if (hero && heroContent) {
+    hero.addEventListener('mousemove', function (e) {
+      var rect = hero.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width - 0.5;
+      var y = (e.clientY - rect.top) / rect.height - 0.5;
+      gsap.to(heroContent, {
+        rotateY: x * 8,
+        rotateX: -y * 5,
+        duration: 0.4,
+        ease: 'power2.out'
+      });
+    });
+    hero.addEventListener('mouseleave', function () {
+      gsap.to(heroContent, {
+        rotateY: 0,
+        rotateX: 0,
+        duration: 0.6,
+        ease: 'power2.out'
+      });
+    });
+  }
+
+  // === 2. Floating Particles in Hero ===
+  if (hero) {
+    var particlesDiv = document.createElement('div');
+    particlesDiv.className = 'rf-hero__particles';
+    for (var i = 0; i < 25; i++) {
+      var p = document.createElement('div');
+      p.className = 'rf-hero__particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = Math.random() * 100 + '%';
+      p.style.animationDelay = (Math.random() * 8) + 's';
+      p.style.animationDuration = (6 + Math.random() * 6) + 's';
+      p.style.width = (2 + Math.random() * 4) + 'px';
+      p.style.height = p.style.width;
+      particlesDiv.appendChild(p);
+    }
+    hero.insertBefore(particlesDiv, hero.firstChild);
+  }
+
+  // === 3. 3D Tilt on Stat Cards ===
+  var statItems = document.querySelectorAll('.rf-stats__item');
+  statItems.forEach(function (item) {
+    // Wrap content in a card-inner div for 3D effect
+    var inner = document.createElement('div');
+    inner.className = 'rf-stats__card-inner';
+    while (item.firstChild) {
+      inner.appendChild(item.firstChild);
+    }
+    item.appendChild(inner);
+
+    item.addEventListener('mousemove', function (e) {
+      var rect = item.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width - 0.5;
+      var y = (e.clientY - rect.top) / rect.height - 0.5;
+      gsap.to(inner, {
+        rotateY: x * 15,
+        rotateX: -y * 15,
+        scale: 1.03,
+        duration: 0.3,
+        ease: 'power2.out'
+      });
+    });
+
+    item.addEventListener('mouseleave', function () {
+      gsap.to(inner, {
+        rotateY: 0,
+        rotateX: 0,
+        scale: 1,
+        duration: 0.5,
+        ease: 'power2.out'
+      });
+    });
+  });
+
+  // === 4. 3D Perspective Rotate on Broken System Image ===
+  var brokenImage = document.querySelector('.rf-broken__image img');
+  if (brokenImage) {
+    gsap.fromTo(brokenImage,
+      { rotateY: -12, rotateX: 5, scale: 0.9 },
+      {
+        rotateY: 0,
+        rotateX: 0,
+        scale: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.rf-broken__image',
+          start: 'top 80%',
+          end: 'top 30%',
+          scrub: 1
+        }
+      }
+    );
+  }
+
+  // === 5. Cursor Glow Follow ===
+  if (window.innerWidth >= 768) {
+    var glow = document.createElement('div');
+    glow.className = 'cursor-glow';
+    document.body.appendChild(glow);
+    var glowX = 0, glowY = 0, curX = 0, curY = 0;
+
+    document.addEventListener('mousemove', function (e) {
+      curX = e.clientX;
+      curY = e.clientY;
+    });
+
+    function animateGlow() {
+      glowX += (curX - glowX) * 0.08;
+      glowY += (curY - glowY) * 0.08;
+      glow.style.left = glowX + 'px';
+      glow.style.top = glowY + 'px';
+      requestAnimationFrame(animateGlow);
+    }
+    animateGlow();
+  }
+
+  // === 6. Magnetic Buttons ===
+  var magneticEls = document.querySelectorAll('.video-expand__play-btn, .rf-hero__banner');
+  magneticEls.forEach(function (el) {
+    el.classList.add('magnetic-btn');
+    el.addEventListener('mousemove', function (e) {
+      var rect = el.getBoundingClientRect();
+      var x = e.clientX - rect.left - rect.width / 2;
+      var y = e.clientY - rect.top - rect.height / 2;
+      gsap.to(el, {
+        x: x * 0.3,
+        y: y * 0.3,
+        duration: 0.3,
+        ease: 'power2.out'
+      });
+    });
+    el.addEventListener('mouseleave', function () {
+      gsap.to(el, {
+        x: 0,
+        y: 0,
+        duration: 0.5,
+        ease: 'elastic.out(1, 0.5)'
+      });
+    });
+  });
+
+  // === 7. 3D Scroll Reveal for sections ===
+  var revealSections = document.querySelectorAll('.rf-stats, .rf-broken');
+  revealSections.forEach(function (section) {
+    gsap.fromTo(section,
+      { rotateX: 4, y: 60, opacity: 0, transformPerspective: 800 },
+      {
+        rotateX: 0,
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 85%',
+          once: true
+        }
+      }
+    );
+  });
+
+  // === 8. Parallax depth layers on scroll ===
+  var bgLeft = document.querySelector('.rf-hero__bg-left');
+  var bgRight = document.querySelector('.rf-hero__bg-right');
+  if (bgLeft) {
+    gsap.to(bgLeft, {
+      y: -80,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.rf-hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1
+      }
+    });
+  }
+  if (bgRight) {
+    gsap.to(bgRight, {
+      y: -50,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.rf-hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1
+      }
+    });
+  }
+}
+
 /* --- Bootstrap all animations on DOM ready --- */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -242,6 +441,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initTextReveal();
   initPyramidSection();
   initWinningSection();
+  init3DEffects();
 
   console.log('[ScrollAnim] All animations initialized.');
 });
