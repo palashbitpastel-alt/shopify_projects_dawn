@@ -187,180 +187,175 @@ function initTextReveal() {
 function initBrokenSystem() {
   console.log('[ScrollAnim] initBrokenSystem loaded');
 
-  var section = document.querySelector('.rf-broken');
-  if (!section) return;
-
-  var pinned = section.querySelector('.rf-broken__pinned');
-  var scene1 = section.querySelector('.rf-broken__scene1');
-  var scene2 = section.querySelector('.rf-broken__scene2');
-  var scene3 = section.querySelector('.rf-broken__scene3');
-  if (!scene1 || !scene2 || !scene3) return;
-
-  // --- Split text1 into word spans ---
-  var text1 = section.querySelector('.rf-broken__text1');
-  if (text1) {
-    var raw = text1.textContent.trim();
-    text1.innerHTML = raw.split(/\s+/).map(function (w) {
-      return '<span class="word">' + w + '</span>';
-    }).join(' ');
-  }
-  var words1 = section.querySelectorAll('.rf-broken__text1 .word');
-
-  // --- Split headline into character spans ---
-  var headline = section.querySelector('.rf-broken__headline');
-  if (headline) {
-    var hText = headline.textContent.trim();
-    var charHTML = '';
-    for (var i = 0; i < hText.length; i++) {
-      if (hText[i] === ' ') {
-        charHTML += '<span class="char-space">&nbsp;</span>';
-      } else {
-        charHTML += '<span class="char">' + hText[i] + '</span>';
-      }
+  // =============================================
+  // PART 1: Image + word highlight (CSS sticky, 200vh)
+  // =============================================
+  var part1 = document.querySelector('.rf-broken-part1');
+  if (part1) {
+    // Split text into word spans
+    var text1 = part1.querySelector('.rf-broken-part1__text');
+    if (text1) {
+      var raw1 = text1.textContent.trim();
+      text1.innerHTML = raw1.split(/\s+/).map(function (w) {
+        return '<span class="word">' + w + '</span>';
+      }).join(' ');
     }
-    headline.innerHTML = charHTML;
-  }
-  var chars = section.querySelectorAll('.rf-broken__headline .char');
+    var words1 = part1.querySelectorAll('.rf-broken-part1__text .word');
 
-  // --- Split text2 into word spans ---
-  var text2 = section.querySelector('.rf-broken__text2');
-  if (text2) {
-    var raw2 = text2.textContent.trim();
-    text2.innerHTML = raw2.split(/\s+/).map(function (w) {
-      return '<span class="word">' + w + '</span>';
-    }).join(' ');
-  }
-  var words2 = section.querySelectorAll('.rf-broken__text2 .word');
+    // Image scroll-in: opacity 0.4 → 1, translateY -40 → 0
+    var imageWrap = part1.querySelector('.rf-broken-part1__image-wrap');
+    if (imageWrap) {
+      gsap.to(imageWrap, {
+        opacity: 1,
+        y: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: part1,
+          start: 'top 75%',
+          end: 'top top',
+          scrub: 1
+        }
+      });
+    }
 
-  // =============================================
-  // PINNED AREA: Scene 1 + Scene 2
-  // Pin the sticky container for 200vh of scroll
-  // =============================================
-  ScrollTrigger.create({
-    trigger: '.rf-broken__sticky',
-    start: 'top top',
-    end: '+=200%',
-    pin: true,
-    pinSpacing: true
-  });
-
-  // === SCENE 1: Image scroll-in ===
-  var imageWrap = section.querySelector('.rf-broken__image-wrap');
-  if (imageWrap) {
-    gsap.to(imageWrap, {
-      opacity: 1,
-      y: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: pinned,
-        start: 'top 75%',
-        end: 'top top',
-        scrub: 1
+    // Word highlight as you scroll through the 200vh
+    ScrollTrigger.create({
+      trigger: part1,
+      start: 'top top',
+      end: '50% top',
+      scrub: 1,
+      onUpdate: function (self) {
+        var progress = self.progress;
+        var total = words1.length;
+        var litCount = Math.ceil(progress * total) - 1;
+        words1.forEach(function (w, i) {
+          if (progress > 0 && i <= litCount) {
+            w.classList.add('is-lit');
+          } else {
+            w.classList.remove('is-lit');
+          }
+        });
       }
+    });
+
+    // Fade out part1 sticky content after words are done
+    var sticky1 = part1.querySelector('.rf-broken-part1__sticky');
+    if (sticky1) {
+      gsap.to(sticky1, {
+        opacity: 0,
+        y: -80,
+        filter: 'blur(20px)',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: part1,
+          start: '55% top',
+          end: '75% top',
+          scrub: 1
+        }
+      });
+    }
+  }
+
+  // =============================================
+  // PART 2: Headline with char blur/brightness/scale (GSAP pinned)
+  // Pins when center, unpins when part3 hits center
+  // =============================================
+  var part2 = document.querySelector('.rf-broken-part2');
+  var part2inner = document.querySelector('.rf-broken-part2__inner');
+  var part3 = document.querySelector('.rf-broken-part3');
+
+  if (part2 && part2inner) {
+    // Split headline into character spans
+    var headline = part2.querySelector('.rf-broken-part2__headline');
+    if (headline) {
+      var hText = headline.textContent.trim();
+      var charHTML = '';
+      for (var i = 0; i < hText.length; i++) {
+        if (hText[i] === ' ') {
+          charHTML += '<span class="char-space">&nbsp;</span>';
+        } else {
+          charHTML += '<span class="char">' + hText[i] + '</span>';
+        }
+      }
+      headline.innerHTML = charHTML;
+    }
+    var chars = part2.querySelectorAll('.rf-broken-part2__headline .char');
+
+    // Pin part2 for 200vh of scroll
+    ScrollTrigger.create({
+      trigger: part2inner,
+      start: 'top top',
+      end: '+=200%',
+      pin: true,
+      pinSpacing: true
+    });
+
+    // State 1: Chars appear (blur 8 → 0, opacity 0 → 1)
+    chars.forEach(function (c, idx) {
+      gsap.to(c, {
+        opacity: 1,
+        filter: 'blur(0px) brightness(1)',
+        y: 0,
+        scale: 1,
+        duration: 0.5,
+        delay: idx * 0.02,
+        scrollTrigger: {
+          trigger: part2inner,
+          start: 'top 40%',
+          once: true
+        }
+      });
+    });
+
+    // State 2: Chars blur out with brightness + scale down as you scroll past
+    chars.forEach(function (c) {
+      gsap.to(c, {
+        filter: 'blur(30px) brightness(10)',
+        y: -50,
+        scale: 0.3,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: part2,
+          start: '60% top',
+          end: '90% top',
+          scrub: 1
+        }
+      });
     });
   }
 
-  // === SCENE 1: Word highlight ===
-  ScrollTrigger.create({
-    trigger: pinned,
-    start: 'top top',
-    end: '30% top',
-    scrub: 1,
-    onUpdate: function (self) {
-      var progress = self.progress;
-      var total = words1.length;
-      var litCount = Math.ceil(progress * total) - 1;
-      words1.forEach(function (w, i) {
-        if (progress > 0 && i <= litCount) {
-          w.classList.add('is-lit');
-        } else {
-          w.classList.remove('is-lit');
-        }
-      });
-    }
-  });
-
-  // Scene 1 fade out
-  gsap.to(scene1, {
-    opacity: 0,
-    y: -100,
-    filter: 'blur(20px)',
-    ease: 'none',
-    scrollTrigger: {
-      trigger: pinned,
-      start: '30% top',
-      end: '40% top',
-      scrub: 1
-    }
-  });
-
-  // === SCENE 2: Headline fade in ===
-  gsap.to(scene2, {
-    opacity: 1,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: pinned,
-      start: '35% top',
-      end: '42% top',
-      scrub: 1
-    }
-  });
-
-  // Char-by-char reveal
-  ScrollTrigger.create({
-    trigger: pinned,
-    start: '42% top',
-    end: '65% top',
-    scrub: 1,
-    onUpdate: function (self) {
-      var progress = self.progress;
-      var total = chars.length;
-      var litCount = Math.ceil(progress * total) - 1;
-      chars.forEach(function (c, i) {
-        if (progress > 0 && i <= litCount) {
-          c.classList.add('is-visible');
-        } else {
-          c.classList.remove('is-visible');
-        }
-      });
-    }
-  });
-
-  // Scene 2 ends blurry + small — does NOT fully disappear
-  gsap.to(scene2, {
-    opacity: 0.15,
-    scale: 0.85,
-    filter: 'blur(6px)',
-    ease: 'none',
-    scrollTrigger: {
-      trigger: pinned,
-      start: '75% top',
-      end: '100% top',
-      scrub: 1
-    }
-  });
-
   // =============================================
-  // SCENE 3: NOT pinned — triggers at bottom 20px
+  // PART 3: Word color change (NOT pinned, bottom 20px trigger)
   // =============================================
-  ScrollTrigger.create({
-    trigger: scene3,
-    start: 'top bottom-=20',
-    end: 'bottom 40%',
-    scrub: 1,
-    onUpdate: function (self) {
-      var progress = self.progress;
-      var total = words2.length;
-      var litCount = Math.ceil(progress * total) - 1;
-      words2.forEach(function (w, i) {
-        if (progress > 0 && i <= litCount) {
-          w.classList.add('is-lit');
-        } else {
-          w.classList.remove('is-lit');
-        }
-      });
+  if (part3) {
+    var text3 = part3.querySelector('.rf-broken-part3__text');
+    if (text3) {
+      var raw3 = text3.textContent.trim();
+      text3.innerHTML = raw3.split(/\s+/).map(function (w) {
+        return '<span class="word">' + w + '</span>';
+      }).join(' ');
     }
-  });
+    var words3 = part3.querySelectorAll('.rf-broken-part3__text .word');
+
+    ScrollTrigger.create({
+      trigger: part3,
+      start: 'top bottom-=20',
+      end: 'center center',
+      scrub: 1,
+      onUpdate: function (self) {
+        var progress = self.progress;
+        var total = words3.length;
+        var litCount = Math.ceil(progress * total) - 1;
+        words3.forEach(function (w, i) {
+          if (progress > 0 && i <= litCount) {
+            w.classList.add('is-lit');
+          } else {
+            w.classList.remove('is-lit');
+          }
+        });
+      }
+    });
+  }
 }
 
 function initWinningSection() {

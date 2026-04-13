@@ -1,40 +1,25 @@
 <style>
-.rf-broken {
+/* === PART 1: Image + word highlight (sticky, 200vh) === */
+.rf-broken-part1 {
   background: #000;
-  width: 100%;
+  height: 200vh;
   position: relative;
+  margin-bottom: -25vh;
 }
 
-/* Pinned area for scene 1 + 2 */
-.rf-broken__pinned {
-  position: relative;
-}
-
-.rf-broken__sticky {
+.rf-broken-part1__sticky {
+  position: sticky;
+  top: 0;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   padding: 0 5%;
-}
-
-/* --- Part 1: Image + first paragraph --- */
-.rf-broken__scene1 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 700px;
   gap: 40px;
 }
 
-.rf-broken__image-wrap {
+.rf-broken-part1__image-wrap {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 24px;
   overflow: hidden;
@@ -44,148 +29,154 @@
   transform: translateY(-40px);
 }
 
-.rf-broken__image-wrap img {
+.rf-broken-part1__image-wrap img {
   width: 100%;
   height: auto;
   display: block;
 }
 
-.rf-broken__caption {
+.rf-broken-part1__caption {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.4);
   text-align: center;
-  margin: 12px 0 0;
+  margin: -28px 0 0;
 }
 
-.rf-broken__text1 {
+.rf-broken-part1__text {
   font-size: clamp(18px, 2.5vw, 22px);
   color: #ffffff;
   line-height: 1.7;
   text-align: center;
   margin: 0;
+  max-width: 700px;
 }
 
-.rf-broken__text1 .word {
+.rf-broken-part1__text .word {
   display: inline;
   color: rgba(255, 255, 255, 0.2);
   transition: color 0.15s ease;
 }
 
-.rf-broken__text1 .word.is-lit {
+.rf-broken-part1__text .word.is-lit {
   color: #ffffff;
 }
 
-/* --- Part 2: Big headline --- */
-.rf-broken__scene2 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  max-width: 900px;
-  text-align: center;
-  opacity: 0;
+/* === PART 2: Big headline with blur/brightness/scale (pinned by GSAP) === */
+.rf-broken-part2 {
+  background: #000;
+  position: relative;
 }
 
-.rf-broken__headline {
+.rf-broken-part2__inner {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5%;
+}
+
+.rf-broken-part2__headline {
   font-size: clamp(42px, 6vw, 72px);
   font-weight: 900;
   color: #ffffff;
   line-height: 1.1;
   margin: 0;
+  text-align: center;
+  max-width: 900px;
 }
 
-.rf-broken__headline .char {
+.rf-broken-part2__headline .char {
   display: inline-block;
   opacity: 0;
-  filter: blur(8px);
-  transform: translateY(10px);
-  transition: opacity 0.2s ease, filter 0.3s ease, transform 0.2s ease;
+  filter: blur(8px) brightness(1);
+  transform: translateY(10px) scale(1);
 }
 
-.rf-broken__headline .char.is-visible {
+.rf-broken-part2__headline .char.is-visible {
   opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
+  filter: blur(0px) brightness(1);
+  transform: translateY(0) scale(1);
 }
 
-.rf-broken__headline .char-space {
+.rf-broken-part2__headline .char-space {
   display: inline;
   width: 0.3em;
 }
 
-/* --- Part 3: Second paragraph (NOT pinned, normal scroll) --- */
-.rf-broken__scene3 {
+/* === PART 3: Second paragraph word highlight (not pinned) === */
+.rf-broken-part3 {
+  background: #000;
   padding: 120px 5%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.rf-broken__text2 {
+.rf-broken-part3__text {
   font-size: clamp(17px, 2.2vw, 20px);
-  color: #ffffff;
   line-height: 1.7;
   margin: 0;
   max-width: 800px;
   text-align: center;
 }
 
-.rf-broken__text2 .word {
+.rf-broken-part3__text .word {
   display: inline;
-  color: rgba(255, 255, 255, 0.2);
-  transition: color 0.15s ease;
+  color: #8d7d7d;
+  opacity: 1;
+  transition: color 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.rf-broken__text2 .word.is-lit {
+.rf-broken-part3__text .word.is-lit {
   color: #ffffff;
 }
 
 @media (max-width: 749px) {
-  .rf-broken__pinned {
+  .rf-broken-part1 {
+    height: 180vh;
+  }
 
-  .rf-broken__scene1 {
+  .rf-broken-part1__sticky {
     gap: 24px;
     padding: 0 16px;
   }
 
-  .rf-broken__image-wrap {
+  .rf-broken-part1__image-wrap {
     max-width: 300px;
   }
 
-  .rf-broken__scene3 {
+  .rf-broken-part3 {
     padding: 80px 5%;
   }
 }
 </style>
 
-<section class="rf-broken" data-section-id="{{ section.id }}">
-  <!-- Pinned area: scene 1 + scene 2 -->
-  <div class="rf-broken__pinned">
-    <div class="rf-broken__sticky">
-      <div class="rf-broken__scene1" data-scene="1">
-        {%- if section.settings.image != blank -%}
-          <div class="rf-broken__image-wrap">
-            {{ section.settings.image | image_url: width: 880 | image_tag: loading: 'lazy' }}
-          </div>
-          {%- if section.settings.caption != blank -%}
-            <span class="rf-broken__caption">{{ section.settings.caption }}</span>
-          {%- endif -%}
-        {%- endif -%}
-        <p class="rf-broken__text1" data-split-words>{{ section.settings.paragraph_1 }}</p>
+<!-- PART 1: Image + word highlight -->
+<div class="rf-broken-part1">
+  <div class="rf-broken-part1__sticky">
+    {%- if section.settings.image != blank -%}
+      <div class="rf-broken-part1__image-wrap">
+        {{ section.settings.image | image_url: width: 880 | image_tag: loading: 'lazy' }}
       </div>
-
-      <div class="rf-broken__scene2" data-scene="2">
-        <h2 class="rf-broken__headline" data-split-chars>{{ section.settings.headline }}</h2>
-      </div>
-    </div>
+      {%- if section.settings.caption != blank -%}
+        <span class="rf-broken-part1__caption">{{ section.settings.caption }}</span>
+      {%- endif -%}
+    {%- endif -%}
+    <p class="rf-broken-part1__text">{{ section.settings.paragraph_1 }}</p>
   </div>
+</div>
 
-  <!-- Scene 3: Not pinned, scrolls normally -->
-  <div class="rf-broken__scene3" data-scene="3">
-    <p class="rf-broken__text2" data-split-words>{{ section.settings.paragraph_2 }}</p>
+<!-- PART 2: Big headline with char animation -->
+<div class="rf-broken-part2">
+  <div class="rf-broken-part2__inner">
+    <h2 class="rf-broken-part2__headline">{{ section.settings.headline }}</h2>
   </div>
-</section>
+</div>
+
+<!-- PART 3: Second paragraph with word color change -->
+<div class="rf-broken-part3">
+  <p class="rf-broken-part3__text">{{ section.settings.paragraph_2 }}</p>
+</div>
 
 {% schema %}
 {
