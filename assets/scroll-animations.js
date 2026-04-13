@@ -190,65 +190,184 @@ function initBrokenSystem() {
   var section = document.querySelector('.rf-broken');
   if (!section) return;
 
-  var left = section.querySelector('.rf-broken__left');
-  var right = section.querySelector('.rf-broken__right');
-  var headline = section.querySelector('.rf-broken__headline');
+  var scene1 = section.querySelector('.rf-broken__scene1');
+  var scene2 = section.querySelector('.rf-broken__scene2');
+  var scene3 = section.querySelector('.rf-broken__scene3');
+  if (!scene1 || !scene2 || !scene3) return;
 
-  // Split headline into words and wrap each in a span
-  if (headline) {
-    var text = headline.textContent.trim();
-    headline.innerHTML = text.split(/\s+/).map(function (word) {
-      return '<span class="word">' + word + '</span>';
+  // --- Split text1 into word spans ---
+  var text1 = section.querySelector('.rf-broken__text1');
+  if (text1) {
+    var raw = text1.textContent.trim();
+    text1.innerHTML = raw.split(/\s+/).map(function (w) {
+      return '<span class="word">' + w + '</span>';
     }).join(' ');
   }
+  var words1 = section.querySelectorAll('.rf-broken__text1 .word');
 
-  // Left column slide in
-  if (left) {
-    gsap.to(left, {
-      opacity: 1,
-      x: 0,
-      duration: 0.9,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: section,
-        start: 'top 75%',
-        once: true
+  // --- Split headline into character spans ---
+  var headline = section.querySelector('.rf-broken__headline');
+  if (headline) {
+    var hText = headline.textContent.trim();
+    var charHTML = '';
+    for (var i = 0; i < hText.length; i++) {
+      if (hText[i] === ' ') {
+        charHTML += '<span class="char-space">&nbsp;</span>';
+      } else {
+        charHTML += '<span class="char">' + hText[i] + '</span>';
       }
-    });
+    }
+    headline.innerHTML = charHTML;
   }
+  var chars = section.querySelectorAll('.rf-broken__headline .char');
 
-  // Word-by-word stagger on headline
-  var words = section.querySelectorAll('.rf-broken__headline .word');
-  if (words.length) {
-    gsap.to(words, {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      stagger: 0.06,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: section,
-        start: 'top 75%',
-        once: true
-      }
-    });
+  // --- Split text2 into word spans ---
+  var text2 = section.querySelector('.rf-broken__text2');
+  if (text2) {
+    var raw2 = text2.textContent.trim();
+    text2.innerHTML = raw2.split(/\s+/).map(function (w) {
+      return '<span class="word">' + w + '</span>';
+    }).join(' ');
   }
+  var words2 = section.querySelectorAll('.rf-broken__text2 .word');
 
-  // Right column slide in
-  if (right) {
-    gsap.to(right, {
-      opacity: 1,
-      x: 0,
-      duration: 0.9,
-      delay: 0.15,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: section,
-        start: 'top 75%',
-        once: true
-      }
-    });
-  }
+  // --- Pin the sticky container ---
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top top',
+    end: 'bottom bottom',
+    pin: '.rf-broken__sticky',
+    pinSpacing: false
+  });
+
+  // Total scroll = 400vh, each scene gets a portion
+  // Scene 1: 0% – 35% (image + word highlight + fade out)
+  // Scene 2: 30% – 65% (headline char reveal + fade out)
+  // Scene 3: 60% – 95% (word highlight)
+
+  // === SCENE 1: Word highlight on scroll ===
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top top',
+    end: '25% top',
+    scrub: 1,
+    onUpdate: function (self) {
+      var progress = self.progress;
+      var total = words1.length;
+      var litCount = Math.floor(progress * total);
+      words1.forEach(function (w, i) {
+        if (i <= litCount) {
+          w.classList.add('is-lit');
+        } else {
+          w.classList.remove('is-lit');
+        }
+      });
+    }
+  });
+
+  // Scene 1 fade out: opacity→0, blur, translateY up
+  gsap.to(scene1, {
+    opacity: 0,
+    y: -100,
+    filter: 'blur(20px)',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: section,
+      start: '25% top',
+      end: '35% top',
+      scrub: 1
+    }
+  });
+
+  // === SCENE 2: Headline character reveal ===
+  gsap.to(scene2, {
+    opacity: 1,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: section,
+      start: '30% top',
+      end: '35% top',
+      scrub: 1
+    }
+  });
+
+  // Char-by-char reveal
+  ScrollTrigger.create({
+    trigger: section,
+    start: '35% top',
+    end: '50% top',
+    scrub: 1,
+    onUpdate: function (self) {
+      var progress = self.progress;
+      var total = chars.length;
+      var litCount = Math.floor(progress * total);
+      chars.forEach(function (c, i) {
+        if (i <= litCount) {
+          c.classList.add('is-visible');
+        } else {
+          c.classList.remove('is-visible');
+        }
+      });
+    }
+  });
+
+  // Scene 2 fade out
+  gsap.to(scene2, {
+    opacity: 0,
+    y: -80,
+    filter: 'blur(20px)',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: section,
+      start: '55% top',
+      end: '65% top',
+      scrub: 1
+    }
+  });
+
+  // === SCENE 3: Second paragraph word highlight ===
+  gsap.to(scene3, {
+    opacity: 1,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: section,
+      start: '60% top',
+      end: '65% top',
+      scrub: 1
+    }
+  });
+
+  ScrollTrigger.create({
+    trigger: section,
+    start: '65% top',
+    end: '90% top',
+    scrub: 1,
+    onUpdate: function (self) {
+      var progress = self.progress;
+      var total = words2.length;
+      var litCount = Math.floor(progress * total);
+      words2.forEach(function (w, i) {
+        if (i <= litCount) {
+          w.classList.add('is-lit');
+        } else {
+          w.classList.remove('is-lit');
+        }
+      });
+    }
+  });
+
+  // Scene 3 fade out at end
+  gsap.to(scene3, {
+    opacity: 0,
+    y: -60,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: section,
+      start: '92% top',
+      end: '100% top',
+      scrub: 1
+    }
+  });
 }
 
 function initWinningSection() {

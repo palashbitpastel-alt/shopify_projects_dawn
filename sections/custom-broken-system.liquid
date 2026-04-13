@@ -1,60 +1,46 @@
 <style>
 .rf-broken {
-  background: #000000;
+  background: #000;
   width: 100%;
-  padding: 100px 5%;
-  overflow: hidden;
+  position: relative;
+  height: 400vh;
 }
 
-.rf-broken__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  max-width: 1200px;
-  margin: 0 auto;
+.rf-broken__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0 5%;
 }
 
-.rf-broken__left {
-  opacity: 0;
-  transform: translateX(-40px);
-}
-
-.rf-broken__headline {
-  font-size: clamp(40px, 5vw, 64px);
-  font-weight: 900;
-  color: #ffffff;
-  line-height: 1.1;
-  margin: 0;
-}
-
-.rf-broken__headline .word {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(20px);
-  margin-right: 0.25em;
-}
-
-.rf-broken__para {
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.7;
-  margin: 28px 0 0;
-}
-
-.rf-broken__right {
-  opacity: 0;
-  transform: translateX(40px);
-}
-
-.rf-broken__image {
+/* --- Part 1: Image + first paragraph --- */
+.rf-broken__scene1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
+  max-width: 700px;
+  gap: 40px;
+}
+
+.rf-broken__image-wrap {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 4px;
   overflow: hidden;
+  max-width: 440px;
+  width: 100%;
 }
 
-.rf-broken__image img {
+.rf-broken__image-wrap img {
   width: 100%;
   height: auto;
   display: block;
@@ -67,38 +53,134 @@
   margin: 12px 0 0;
 }
 
+.rf-broken__text1 {
+  font-size: clamp(18px, 2.5vw, 22px);
+  color: #ffffff;
+  line-height: 1.7;
+  text-align: center;
+  margin: 0;
+}
+
+.rf-broken__text1 .word {
+  display: inline;
+  color: rgba(255, 255, 255, 0.2);
+  transition: color 0.15s ease;
+}
+
+.rf-broken__text1 .word.is-lit {
+  color: #ffffff;
+}
+
+/* --- Part 2: Big headline --- */
+.rf-broken__scene2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+  opacity: 0;
+}
+
+.rf-broken__headline {
+  font-size: clamp(42px, 6vw, 72px);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.rf-broken__headline .char {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, filter 0.3s ease, transform 0.2s ease;
+}
+
+.rf-broken__headline .char.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+.rf-broken__headline .char-space {
+  display: inline;
+  width: 0.3em;
+}
+
+/* --- Part 3: Second paragraph --- */
+.rf-broken__scene3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  opacity: 0;
+}
+
+.rf-broken__text2 {
+  font-size: clamp(17px, 2.2vw, 20px);
+  color: #ffffff;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.rf-broken__text2 .word {
+  display: inline;
+  color: rgba(255, 255, 255, 0.2);
+  transition: color 0.15s ease;
+}
+
+.rf-broken__text2 .word.is-lit {
+  color: #ffffff;
+}
+
 @media (max-width: 749px) {
-  .rf-broken__grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
+  .rf-broken {
+    height: 350vh;
   }
 
-  .rf-broken {
-    padding: 72px 5%;
+  .rf-broken__scene1 {
+    gap: 24px;
+    padding: 0 16px;
+  }
+
+  .rf-broken__image-wrap {
+    max-width: 300px;
   }
 }
 </style>
 
 <section class="rf-broken" data-section-id="{{ section.id }}">
-  <div class="rf-broken__grid">
-    <div class="rf-broken__left">
-      <h2 class="rf-broken__headline rf-headline" data-split-words>
-        {{ section.settings.headline }}
-      </h2>
-      <p class="rf-broken__para">{{ section.settings.paragraph_1 }}</p>
-      <p class="rf-broken__para">{{ section.settings.paragraph_2 }}</p>
-    </div>
+  <div class="rf-broken__sticky">
 
-    <div class="rf-broken__right">
+    <!-- Scene 1: Image + first paragraph with word highlight -->
+    <div class="rf-broken__scene1" data-scene="1">
       {%- if section.settings.image != blank -%}
-        <div class="rf-broken__image">
-          {{ section.settings.image | image_url: width: 800 | image_tag: loading: 'lazy' }}
+        <div class="rf-broken__image-wrap">
+          {{ section.settings.image | image_url: width: 880 | image_tag: loading: 'lazy' }}
         </div>
         {%- if section.settings.caption != blank -%}
-          <p class="rf-broken__caption">{{ section.settings.caption }}</p>
+          <span class="rf-broken__caption">{{ section.settings.caption }}</span>
         {%- endif -%}
       {%- endif -%}
+      <p class="rf-broken__text1" data-split-words>{{ section.settings.paragraph_1 }}</p>
     </div>
+
+    <!-- Scene 2: Big headline with character reveal -->
+    <div class="rf-broken__scene2" data-scene="2">
+      <h2 class="rf-broken__headline" data-split-chars>{{ section.settings.headline }}</h2>
+    </div>
+
+    <!-- Scene 3: Second paragraph with word highlight -->
+    <div class="rf-broken__scene3" data-scene="3">
+      <p class="rf-broken__text2" data-split-words>{{ section.settings.paragraph_2 }}</p>
+    </div>
+
   </div>
 </section>
 
@@ -117,14 +199,14 @@
     {
       "type": "textarea",
       "id": "paragraph_1",
-      "label": "Paragraph 1",
-      "default": "For decades we've been misled by guidance that prioritized highly processed food over the real, nutrient-dense food that sustained generations before us."
+      "label": "Paragraph 1 (under image)",
+      "default": "For decades we've been misled by guidance that prioritized highly processed food, and are now facing rates of unprecedented chronic disease."
     },
     {
       "type": "textarea",
       "id": "paragraph_2",
-      "label": "Paragraph 2",
-      "default": "For the first time, official U.S. guidance calls on Americans to avoid highly processed food and return to eating real food — meat, fruit, vegetables, and dairy."
+      "label": "Paragraph 2 (after headline)",
+      "default": "For the first time, official U.S. guidance calls on Americans to avoid highly processed food. This is not an attack on industry or a legal definition. It reflects a public health reality families live with every day."
     },
     {
       "type": "image_picker",
