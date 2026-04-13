@@ -131,7 +131,7 @@ function initStatsCounters() {
       onUpdate: function () {
         el.textContent = Math.round(obj.val);
         if (barFill) {
-          barFill.style.height = Math.round(obj.val) + '%';
+          barFill.style.height = Math.round((obj.val / 100) * 320) + 'px';
         }
       }
     });
