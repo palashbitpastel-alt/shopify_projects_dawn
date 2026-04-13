@@ -67,50 +67,51 @@ function initHeroAnimation() {
 function initStatsCounters() {
   console.log('[ScrollAnim] initStatsCounters loaded');
 
-  const grid = document.querySelector('.rf-stats__grid');
-  if (!grid) return;
+  var section = document.querySelector('.rf-stats');
+  if (!section) return;
 
-  const valueEls = grid.querySelectorAll('.rf-stats__value');
-  var barFills = grid.querySelectorAll('.rf-stats__bar-fill');
+  var bars = section.querySelectorAll('.rf-stats__bar');
+  var valueEls = section.querySelectorAll('.rf-stats__value');
 
-  // Rank bars by value — highest gets full red, others get less opacity
-  var barValues = [];
-  barFills.forEach(function (bar) {
-    barValues.push(parseInt(bar.getAttribute('data-bar-target'), 10) || 0);
+  // Collect all target values to rank them
+  var targets = [];
+  bars.forEach(function (bar) {
+    targets.push(parseInt(bar.getAttribute('data-bar-target'), 10) || 0);
   });
-  var sorted = barValues.slice().sort(function (a, b) { return b - a; });
-  barFills.forEach(function (bar) {
-    var val = parseInt(bar.getAttribute('data-bar-target'), 10) || 0;
+  // Set bar opacity based on rank: highest = full, others dimmer
+  var sorted = targets.slice().sort(function (a, b) { return b - a; });
+  bars.forEach(function (bar, i) {
+    var val = targets[i];
     var rank = sorted.indexOf(val);
-    // highest = 1.0, middle = 0.7, lowest = 0.45
     var opacityMap = [1, 0.7, 0.45];
-    var opacity = opacityMap[rank] || 0.45;
-    bar.style.backgroundColor = 'rgba(204, 0, 0, ' + opacity + ')';
+    bar.style.backgroundColor = 'rgba(204, 0, 0, ' + (opacityMap[rank] || 0.45) + ')';
   });
 
-  // Count-up each number + bar height fill with stagger
+  // Animate: count numbers + grow bar heights
   valueEls.forEach(function (el, i) {
     var target = parseInt(el.getAttribute('data-target'), 10) || 0;
     var obj = { val: 0 };
-
-    // Find the bar fill in the same stat item
-    var statItem = el.closest('.rf-stats__item');
-    var barFill = statItem ? statItem.querySelector('.rf-stats__bar-fill') : null;
+    var item = el.closest('.rf-stats__item');
+    var bar = item ? item.querySelector('.rf-stats__bar') : null;
+    // Max bar height 300px, scale proportionally
+    var maxBarHeight = 300;
+    var barHeight = (target / 100) * maxBarHeight;
 
     gsap.to(obj, {
       val: target,
-      duration: 2.2,
-      delay: i * 0.25,
-      ease: 'power3.out',
+      duration: 2,
+      delay: i * 0.2,
+      ease: 'power2.out',
       scrollTrigger: {
-        trigger: '.rf-stats',
-        start: 'top 90%',
+        trigger: section,
+        start: 'top 85%',
         once: true
       },
       onUpdate: function () {
-        el.textContent = Math.round(obj.val);
-        if (barFill) {
-          barFill.style.height = Math.round((obj.val / 100) * 320) + 'px';
+        var current = Math.round(obj.val);
+        el.textContent = current;
+        if (bar) {
+          bar.style.height = Math.round((current / target) * barHeight) + 'px';
         }
       }
     });

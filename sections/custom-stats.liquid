@@ -3,7 +3,6 @@
   background: #000000;
   width: 100%;
   padding: 120px 5%;
-  overflow: hidden;
 }
 
 .rf-stats__headline {
@@ -31,48 +30,26 @@
 
 .rf-stats__grid {
   display: flex;
-  gap: 40px;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 50px;
   max-width: 1200px;
   margin: 0 auto;
-  justify-content: space-between;
-  opacity: 1;
 }
 
 .rf-stats__item {
+  flex: 1;
+  max-width: 300px;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: auto;
 }
 
-/* --- Tall Red Bar Block --- */
-.rf-stats__bar-block {
-  width: 100%;
-  max-width: 280px;
-  max-height: 320px;
-  position: relative;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-}
-
+/* Number on top of the bar */
 .rf-stats__number {
-  font-size: clamp(48px, 6vw, 72px);
+  font-size: clamp(40px, 5vw, 64px);
   font-weight: 900;
   color: #ffffff;
   line-height: 1;
-  margin: 0 0 -80px;
-  white-space: nowrap;
-  z-index: 2;
-}
-
-.rf-stats__bar-fill {
-  width: 100%;
-  height: 0%;
-  background: #cc0000;
-  position: relative;
-  min-height: 0;
-  transition: height 0.05s linear;
-  display: block !important;
+  margin: 0 0 8px;
 }
 
 .rf-stats__unit {
@@ -80,41 +57,41 @@
   font-weight: inherit;
 }
 
+/* Red bar that grows upward */
+.rf-stats__bar {
+  width: 100%;
+  height: 0;
+  display: block !important;
+  background: #cc0000;
+}
+
+/* Label below bar */
 .rf-stats__label {
   font-size: 16px;
   color: rgba(255, 255, 255, 0.65);
   line-height: 1.5;
-  max-width: 280px;
-  margin: 20px auto 0;
-  text-align: center;
+  margin: 16px 0 0;
 }
 
 @media (max-width: 749px) {
-  .rf-stats__grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    align-items: flex-end;
-  }
-
   .rf-stats {
     padding: 80px 5%;
+  }
+
+  .rf-stats__grid {
+    gap: 20px;
   }
 
   .rf-stats__subheadline {
     margin-bottom: 48px;
   }
 
-  .rf-stats__bar-block {
-    height: 200px;
-    max-width: 100%;
-  }
-
   .rf-stats__number {
-    font-size: clamp(24px, 5vw, 36px);
+    font-size: clamp(24px, 5vw, 32px);
   }
 
   .rf-stats__label {
-    font-size: 13px;
+    font-size: 12px;
   }
 }
 </style>
@@ -130,9 +107,7 @@
       <p class="rf-stats__number">
         <span class="rf-stats__value" data-target="{{ section.settings.stat1_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat1_unit }}</span>
       </p>
-      <div class="rf-stats__bar-block">
-        <div class="rf-stats__bar-fill" data-bar-target="{{ section.settings.stat1_number }}"></div>
-      </div>
+      <div class="rf-stats__bar" data-bar-target="{{ section.settings.stat1_number }}">&nbsp;</div>
       <p class="rf-stats__label">{{ section.settings.stat1_label }}</p>
     </div>
 
@@ -140,9 +115,7 @@
       <p class="rf-stats__number">
         <span class="rf-stats__value" data-target="{{ section.settings.stat2_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat2_unit }}</span>
       </p>
-      <div class="rf-stats__bar-block">
-        <div class="rf-stats__bar-fill" data-bar-target="{{ section.settings.stat2_number }}"></div>
-      </div>
+      <div class="rf-stats__bar" data-bar-target="{{ section.settings.stat2_number }}">&nbsp;</div>
       <p class="rf-stats__label">{{ section.settings.stat2_label }}</p>
     </div>
 
@@ -150,9 +123,7 @@
       <p class="rf-stats__number">
         <span class="rf-stats__value" data-target="{{ section.settings.stat3_number }}">0</span><span class="rf-stats__unit">{{ section.settings.stat3_unit }}</span>
       </p>
-      <div class="rf-stats__bar-block">
-        <div class="rf-stats__bar-fill" data-bar-target="{{ section.settings.stat3_number }}"></div>
-      </div>
+      <div class="rf-stats__bar" data-bar-target="{{ section.settings.stat3_number }}">&nbsp;</div>
       <p class="rf-stats__label">{{ section.settings.stat3_label }}</p>
     </div>
   </div>
