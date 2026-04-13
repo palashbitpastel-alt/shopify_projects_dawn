@@ -50,7 +50,7 @@
           "type": "stat",
           "settings": {
             "number": 50,
-            "unit": "",
+            "unit": "%",
             "label": "of Americans have prediabetes or diabetes"
           }
         }
