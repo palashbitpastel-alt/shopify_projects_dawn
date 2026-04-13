@@ -3,38 +3,36 @@
   data-section-id="{{ section.id }}"
   style="--start-w: {{ section.settings.start_width }}vw; --start-r: {{ section.settings.start_radius }}px"
 >
-  <div class="video-expand__sticky">
-    <div class="video-expand__wrapper">
-      {%- if section.settings.video_mp4 != blank -%}
-        <video
-          autoplay
-          muted
-          loop
-          playsinline
-          src="{{ section.settings.video_mp4 }}"
-        ></video>
-      {%- elsif section.settings.video_url != blank -%}
-        {%- if section.settings.video_url.type == 'youtube' -%}
-          <iframe
-            src="https://www.youtube.com/embed/{{ section.settings.video_url.id }}?autoplay=1&mute=1&loop=1&playlist={{ section.settings.video_url.id }}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
-            frameborder="0"
-            allow="autoplay; encrypted-media"
-            allowfullscreen
-          ></iframe>
-        {%- elsif section.settings.video_url.type == 'vimeo' -%}
-          <iframe
-            src="https://player.vimeo.com/video/{{ section.settings.video_url.id }}?autoplay=1&muted=1&loop=1&background=1&playsinline=1"
-            frameborder="0"
-            allow="autoplay; encrypted-media"
-            allowfullscreen
-          ></iframe>
-        {%- endif -%}
-      {%- else -%}
-        <div class="video-expand__placeholder">
-          <p>Add a video URL in the section settings</p>
-        </div>
+  <div class="video-expand__wrapper">
+    {%- if section.settings.video_mp4 != blank -%}
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        src="{{ section.settings.video_mp4 }}"
+      ></video>
+    {%- elsif section.settings.video_url != blank -%}
+      {%- if section.settings.video_url.type == 'youtube' -%}
+        <iframe
+          src="https://www.youtube.com/embed/{{ section.settings.video_url.id }}?autoplay=1&mute=1&loop=1&playlist={{ section.settings.video_url.id }}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+        ></iframe>
+      {%- elsif section.settings.video_url.type == 'vimeo' -%}
+        <iframe
+          src="https://player.vimeo.com/video/{{ section.settings.video_url.id }}?autoplay=1&muted=1&loop=1&background=1&playsinline=1"
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+        ></iframe>
       {%- endif -%}
-    </div>
+    {%- else -%}
+      <div class="video-expand__placeholder">
+        <p>Add a video URL in the section settings</p>
+      </div>
+    {%- endif -%}
   </div>
 </section>
 

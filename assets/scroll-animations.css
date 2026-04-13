@@ -79,15 +79,10 @@ a {
 /* --- Video Expand Section --- */
 .video-expand-section {
   background: #000;
-  height: 180vh;
-}
-
-.video-expand__sticky {
-  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  padding: 40px 0;
 }
 
 .video-expand__wrapper {
@@ -96,6 +91,7 @@ a {
   border-radius: var(--start-r, 16px);
   overflow: hidden;
   will-change: width, border-radius;
+  margin: 0 auto;
 }
 
 .video-expand__wrapper video,
@@ -119,17 +115,6 @@ a {
 }
 
 @media (max-width: 767px) {
-  .video-expand-section {
-    height: auto;
-  }
-
-  .video-expand__sticky {
-    position: relative;
-    height: auto;
-    min-height: 60vh;
-    padding: 40px 0;
-  }
-
   .video-expand__wrapper {
     width: 90vw;
     height: 50vh;

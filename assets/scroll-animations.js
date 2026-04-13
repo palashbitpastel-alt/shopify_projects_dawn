@@ -109,10 +109,9 @@ function initVideoExpand() {
     ease: 'none',
     scrollTrigger: {
       trigger: '.video-expand-section',
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: 1,
-      pin: '.video-expand__sticky'
+      start: 'top bottom-=20',
+      end: 'top top',
+      scrub: 1
     }
   });
 }
